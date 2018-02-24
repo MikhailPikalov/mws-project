@@ -77,9 +77,11 @@ if (config.analyzeJSBundle) {
     webpackConfig.plugins.push(new BundleAnalyzerPlugin());
 }
 
-if (!config.production) {
-    webpackConfig.devtool = 'eval';
-} else {
+if (config.sourceMaps) {
+    webpackConfig.devtool = 'eval-source-map';
+}
+
+if (config.production) {
     webpackConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({
         minimize: true,
         compress: {

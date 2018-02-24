@@ -137,7 +137,7 @@ nav h1 a {
     text-transform: uppercase;
     }
 
-#breadcrumb {
+#breadcrumbs {
     padding: 10px 40px 16px;
     list-style: none;
     background-color: #eee;
@@ -147,12 +147,12 @@ nav h1 a {
     }
 
 /* Display list items side by side */
-#breadcrumb li {
+#breadcrumbs li {
     display: inline;
     }
 
 /* Add a slash symbol (/) before/behind each list item */
-#breadcrumb li + li:before {
+#breadcrumbs li + li:before {
     padding: 8px;
     color: black;
     content: "/\00a0";

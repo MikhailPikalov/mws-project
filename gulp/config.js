@@ -2,6 +2,7 @@ const gutil = require('gulp-util');
 
 const production = !gutil.env.dev && !gutil.env.development;
 const analyzeJSBundle = !!gutil.env['analyze-js-bundle'];
+const sourceMaps = !!gutil.env['source-maps'];
 
 const watcherEventLog = (event, path) => {
     console.log(`[${event}] /${path.replace(/\\/g, '/')}`);
@@ -20,6 +21,7 @@ module.exports = {
     production: production,
 
     analyzeJSBundle: analyzeJSBundle,
+    sourceMaps: sourceMaps,
 
     logWatcherEvents: (watcher) => {
         watcher.on('change', (path) => {

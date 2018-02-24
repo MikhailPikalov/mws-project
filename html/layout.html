@@ -23,14 +23,20 @@
     <script type="text/javascript">
         window.MAP_READY = false;
 
-        window.initMap = function () {
+        window.MAP_READY_CALLBACK = function () {
             window.MAP_READY = true;
         };
     </script>
 
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAd8uWtGNH7nh3NVxrsQNhV-rqAWmLQdXo&libraries=places&callback=initMap"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAd8uWtGNH7nh3NVxrsQNhV-rqAWmLQdXo&libraries=places&callback=MAP_READY_CALLBACK"></script>
 
     <script src="/assets/js/<%= VENDOR_CHUNK_NAME %>"></script>
     <script src="/assets/js/<%= PAGE_CHUNK_NAME %>"></script>
+
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            window.Page.run();
+        });
+    </script>
 </body>
 </html>
