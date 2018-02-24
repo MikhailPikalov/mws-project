@@ -1,0 +1,16 @@
+@import './globals/breakpoints';
+@import './globals/z-indices';
+
+$g-transition__default: .08s ease;
+
+$g-color__text: #333;
+
+$g-color__link: #0089ff;
+$g-color__link--hover: #f41224;
+$g-color__link--visited: #b40eb4;
+$g-color__link-underscore: rgba(0, 137, 255, .3);
+$g-color__link-underscore--hover: rgba(244, 18, 36, .3);
+$g-color__link-underscore--visited: rgba(180, 14, 180, .3);
+
+$g-font-heading: Georgia, 'Times New Roman', serif;
+$g-font-content: Helvetica, Arial, sans-serif;

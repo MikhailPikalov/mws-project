@@ -1,0 +1,43 @@
+@import '../base/globals';
+
+.b-link {
+    display: inline-block;
+
+    margin-bottom: -1px;
+
+    border-bottom: 1px solid $g-color__link-underscore;
+
+    color: $g-color__link;
+    text-decoration: none;
+
+    line-height: 1.2;
+
+    cursor: pointer;
+
+    transition: color $g-transition__default, border $g-transition__default;
+
+    @media print {
+        border-bottom: none !important;
+
+        color: $g-color__text !important;
+        }
+
+    &:visited {
+        border-bottom-color: $g-color__link-underscore--visited;
+
+        color: $g-color__link--visited;
+        }
+
+    &:hover,
+    &:focus {
+        border-bottom-color: $g-color__link-underscore--hover;
+
+        color: $g-color__link--hover;
+        }
+
+    &[href^='http']:after {
+        @media print {
+            content: ' (' attr(href) ')';
+            }
+        }
+    }

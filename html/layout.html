@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+
+    <title><%= PAGE_TITLE %></title>
+
+    <!-- TODO: favicon -->
+
+    <link rel="stylesheet" href="/assets/css/<%= CSS_BUNDLE_NAME %>" type="text/css" />
+</head>
+<body>
+    <!-- Page content -->
+
+    <%- include('pages/<!-- @echo PAGE_NAME -->.html') %>
+
+
+    <!-- Scripts -->
+
+    <script type="text/javascript">
+        window.MAP_READY = false;
+
+        window.initMap = function () {
+            window.MAP_READY = true;
+        };
+    </script>
+
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAd8uWtGNH7nh3NVxrsQNhV-rqAWmLQdXo&libraries=places&callback=initMap"></script>
+
+    <script src="/assets/js/<%= VENDOR_CHUNK_NAME %>"></script>
+    <script src="/assets/js/<%= PAGE_CHUNK_NAME %>"></script>
+</body>
+</html>
