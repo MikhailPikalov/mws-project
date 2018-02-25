@@ -108,11 +108,11 @@ class Page extends PageObj {
         // Image
 
         const imageContainer = document.createElement('div');
-        imageContainer.className = 'b-restaurant__item-img-container';
+        imageContainer.className = 'b-restaurants__item-img-container';
         restaurantElement.append(imageContainer);
 
         const image = document.createElement('img');
-        image.className = 'b-restaurant__item-img';
+        image.className = 'b-restaurants__item-img';
         image.setAttribute('alt', '');
         image.src = DBHelper.imageUrlForRestaurant(restaurant);
         imageContainer.append(image);
@@ -121,29 +121,29 @@ class Page extends PageObj {
         // Info block
 
         const info = document.createElement('div');
-        info.className = 'b-restaurant__item-info';
+        info.className = 'b-restaurants__item-info';
         restaurantElement.append(info);
 
         const title = document.createElement('h3');
-        title.id = `b-restaurant__item-title--${restaurant.id}`;
-        title.classList.add('b-restaurant__item-title');
+        title.id = `b-restaurants__item-title--${restaurant.id}`;
+        title.classList.add('b-restaurants__item-title');
         title.innerHTML = restaurant.name;
         info.append(title);
 
         const neighborhood = document.createElement('p');
-        neighborhood.id = `b-restaurant__item-paragraph--neighborhood--${restaurant.id}`;
-        neighborhood.classList.add('b-restaurant__item-paragraph');
+        neighborhood.id = `b-restaurants__item-paragraph--neighborhood--${restaurant.id}`;
+        neighborhood.classList.add('b-restaurants__item-paragraph');
         neighborhood.innerHTML = restaurant.neighborhood;
         info.append(neighborhood);
 
         const address = document.createElement('p');
-        address.classList.add('b-restaurant__item-paragraph');
+        address.classList.add('b-restaurants__item-paragraph');
         address.innerHTML = restaurant.address;
         info.append(address);
 
         const more = document.createElement('a');
-        more.id = `b-restaurant__item-link--${restaurant.id}`;
-        more.classList.add('b-restaurant__item-link');
+        more.id = `b-restaurants__item-link--${restaurant.id}`;
+        more.classList.add('b-restaurants__item-link');
         more.innerHTML = 'View Details';
         more.href = DBHelper.urlForRestaurant(restaurant);
         more.setAttribute('aria-labelledby', `${more.id} ${title.id}`);

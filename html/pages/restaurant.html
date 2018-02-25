@@ -9,7 +9,7 @@
     <nav class="b-header__breadcrumbs">
         <ul class="b-header__breadcrumbs-list" id="breadcrumbs">
             <li class="b-header__breadcrumb">
-                <a href="/" class="b-header__breadcrumb-link b-link">Home</a>
+                <a href="/" class="b-header__breadcrumb-link b-link b-link--darker">Home</a>
             </li>
         </ul>
     </nav>
@@ -22,13 +22,14 @@
 
     <section class="b-main__section b-main__section--content">
         <section class="b-restaurant" id="restaurant-container">
-            <h1 class="b-restaurant__title" id="restaurant-name"></h1>
+            <h1 class="b-restaurant__title" id="restaurant-name" tabindex="0"></h1>
 
-            <img class="b-restaurant__image" id="restaurant-img" />
+            <img class="b-restaurant__image" id="restaurant-img" alt="" />
 
             <p class="b-restaurant__cuisine" id="restaurant-cuisine"></p>
             <p class="b-restaurant__address" id="restaurant-address"></p>
 
+            <h2 class="b-restaurant__hours-title">Opening hours</h2>
             <table class="b-restaurant__hours" id="restaurant-hours"></table>
         </section>
 
@@ -40,6 +41,6 @@
 </main>
 
 <footer class="b-footer b-footer--inner">
-    Copyright (c) 2017 <a href="/" class="b-link">Restaurant Reviews</a> <br class="b-footer__line-break"/>
+    Copyright (c) 2017 <a href="/" class="b-link b-link--lighter">Restaurant Reviews</a> <br class="b-footer__line-break"/>
     All Rights Reserved.
 </footer>

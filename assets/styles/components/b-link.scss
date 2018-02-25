@@ -16,12 +16,6 @@
 
     transition: color $g-transition__default, border $g-transition__default;
 
-    @media print {
-        border-bottom: none !important;
-
-        color: $g-color__text !important;
-        }
-
     &:visited {
         border-bottom-color: $g-color__link-underscore--visited;
 
@@ -38,6 +32,50 @@
     &[href^='http']:after {
         @media print {
             content: ' (' attr(href) ')';
+            }
+        }
+
+    @media print {
+        border-bottom: none !important;
+
+        color: $g-color__text !important;
+        }
+
+    &--lighter {
+        border-bottom-color: lighten($g-color__link-underscore, 25%);
+
+        color: lighten($g-color__link, 25%);
+
+        &:visited {
+            border-bottom-color: lighten($g-color__link-underscore--visited, 10%);
+
+            color: lighten($g-color__link--visited, 10%);
+            }
+
+        &:hover,
+        &:focus {
+            border-bottom-color: lighten($g-color__link-underscore--hover, 25%);
+
+            color: lighten($g-color__link--hover, 25%);
+            }
+        }
+
+    &--darker {
+        border-bottom-color: darken($g-color__link-underscore, 12.5%);
+
+        color: darken($g-color__link, 12.5%);
+
+        &:visited {
+            border-bottom-color: darken($g-color__link-underscore--visited, 10%);
+
+            color: darken($g-color__link--visited, 10%);
+            }
+
+        &:hover,
+        &:focus {
+            border-bottom-color: darken($g-color__link-underscore--hover, 10%);
+
+            color: darken($g-color__link--hover, 10%);
             }
         }
     }

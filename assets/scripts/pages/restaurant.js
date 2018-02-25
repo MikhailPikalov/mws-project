@@ -99,7 +99,7 @@ class Page extends PageObj {
         name.innerHTML = this.restaurant.name;
 
         const address = this.refs.restaurantAddress;
-        address.innerHTML = this.restaurant.address;
+        address.innerHTML = `<b>Address</b>: ${this.restaurant.address}`;
 
         const image = this.refs.restaurantImage;
         image.className = 'b-restaurant__image';
@@ -134,12 +134,17 @@ class Page extends PageObj {
             const row = document.createElement('tr');
 
             const day = document.createElement('td');
+            day.id = `b-restaurant__hours-day-cell--${weekDay.toLowerCase()}`;
             day.innerHTML = weekDay;
             row.appendChild(day);
 
             const time = document.createElement('td');
+            time.id = `b-restaurant__hours-time-cell--${weekDay.toLowerCase()}`;
             time.innerHTML = this.restaurant.operating_hours[weekDay];
+            time.setAttribute('aria-hidden', 'true');
             row.appendChild(time);
+
+            day.setAttribute('aria-labelledby', `${day.id} ${time.id}`);
 
             hoursElement.appendChild(row);
         }

@@ -3,7 +3,7 @@
 
     padding-bottom: 60px;
 
-    background: #f3f3f3;
+    background: #eee;
 
     .b-header--inner + & {
         min-height: 100%;
@@ -31,7 +31,7 @@
 
                     height: auto;
                     max-height: none;
-                    width: 40%;
+                    width: calc(100% - 590px - 24px * 2);
                     }
                 }
             }
@@ -42,7 +42,7 @@
                 box-shadow: 0 0 8px -3px rgba(0, 0, 0, 0.5);
 
                 @media (min-width: $g-breakpoint--desktop) {
-                    width: 60%;
+                    width: calc(590px + 24px * 2);
 
                     box-shadow: none;
                     }

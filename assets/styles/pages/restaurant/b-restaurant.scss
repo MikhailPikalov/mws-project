@@ -9,7 +9,7 @@
     .b-restaurant__title {
         margin: 0;
 
-        color: #f18200;
+        color: #e45600;
         font-size: 32px;
         font-weight: normal;
         font-family: $g-font__heading;
@@ -18,15 +18,20 @@
         text-transform: uppercase;
 
         line-height: 1;
+
+        outline: none;
         }
     .b-restaurant__image {
         display: block;
 
         width: 100%;
+        max-width: 800px;
 
         margin-top: 16px;
         }
     .b-restaurant__cuisine {
+        max-width: 800px;
+
         margin: 0;
         padding: 12px 0;
 
@@ -50,8 +55,19 @@
 
         line-height: 20px;
         }
-    .b-restaurant__hours {
+    .b-restaurant__hours-title {
         margin: 24px 0 0;
+
+        color: #e45600;
+        font-weight: normal;
+        font-size: 32px;
+
+        letter-spacing: -1px;
+        }
+    .b-restaurant__hours {
+        margin: 12px 0 0;
+
+        border-collapse: collapse;
         }
         .b-restaurant__hours td {
             padding: 0;
@@ -59,5 +75,11 @@
             color: #666;
             font-size: 16px;
 
-            line-height: 20px;
+            line-height: 24px;
+
+            &:first-child {
+                padding-right: 8px;
+
+                font-weight: bold;
+                }
             }

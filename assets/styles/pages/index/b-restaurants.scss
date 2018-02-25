@@ -80,7 +80,7 @@
                     }
                 }
             }
-            .b-restaurant__item-img-container {
+            .b-restaurants__item-img-container {
                 position: relative;
 
                 height: 300px;
@@ -96,7 +96,7 @@
                     max-height: none;
                     }
                 }
-                .b-restaurant__item-img {
+                .b-restaurants__item-img {
                     position: absolute;
                     display: block;
 
@@ -111,7 +111,7 @@
 
                     background: #ccc;
                     }
-            .b-restaurant__item-info {
+            .b-restaurants__item-info {
                 margin-top: 16px;
                 padding: 0 16px 16px;
 
@@ -119,10 +119,10 @@
                     padding-bottom: 68px;
                     }
                 }
-                .b-restaurant__item-title {
+                .b-restaurants__item-title {
                     margin: 0;
 
-                    color: #f18200;
+                    color: #de7800;
                     font-size: 24px;
                     font-weight: normal;
                     font-family: $g-font__heading;
@@ -131,7 +131,7 @@
 
                     line-height: 1;
                     }
-                .b-restaurant__item-paragraph {
+                .b-restaurants__item-paragraph {
                     margin: 12px 0 0;
 
                     font-size: 14px;
@@ -142,13 +142,13 @@
                         margin-top: 0;
                         }
                     }
-                .b-restaurant__item-link {
+                .b-restaurants__item-link {
                     display: block;
 
                     margin: 16px 0 0;
                     padding: 10px 0;
 
-                    background-color: orange;
+                    background-color: #af5e00;
                     border-radius: 0 0 36px 0;
 
                     color: #fff;
@@ -160,6 +160,12 @@
                     line-height: 16px;
 
                     text-align: center;
+
+                    transition: background $g-transition__default;
+
+                    &:hover {
+                        background: #cc6d00;
+                        }
 
                     &:focus {
                         box-shadow: 0 0 1px 2px rgb(77, 144, 254);

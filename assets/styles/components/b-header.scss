@@ -82,7 +82,7 @@
         box-shadow: 0 0 8px -3px rgba(0, 0, 0, .5);
 
         @media (min-width: $g-breakpoint--desktop) {
-            width: 60%;
+            width: calc(590px + 24px * 2);
             }
         }
         .b-header__breadcrumbs-list {

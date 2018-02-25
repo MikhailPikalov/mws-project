@@ -50,6 +50,19 @@ class PageObj {
             center: loc,
             scrollwheel: false
         });
+
+        (function fixTermsLink(tryNumber = 1) {
+            const termsLink = document.querySelector('a[href$="terms_maps.html"]');
+
+            if (termsLink) {
+                termsLink.setAttribute('rel', 'noopener');
+                return;
+            }
+
+            if (tryNumber < 100) setTimeout(() => {
+                fixTermsLink(tryNumber + 1);
+            }, 100);
+        })();
     }
 }
 

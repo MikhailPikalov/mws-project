@@ -2,7 +2,7 @@ const gulp = require('gulp');
 
 const config = require('../config');
 
-gulp.task('move-data-json', () => {
-    return gulp.src('./data.json')
+gulp.task('move-root-folder', () => {
+    return gulp.src('./assets/root/*.*')
         .pipe(gulp.dest(config.destination));
 });

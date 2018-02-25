@@ -5,7 +5,7 @@ gulp.task('default', gulp.series(
 
     gulp.parallel(
         'bundle-images',
-        'move-data-json',
+        'move-root-folder',
 
         gulp.series(
             gulp.parallel(

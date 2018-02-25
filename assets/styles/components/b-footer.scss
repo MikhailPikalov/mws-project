@@ -10,7 +10,7 @@
 
     background: #444;
 
-    color: #aaa;
+    color: #bbb;
     font-size: 12px;
 
     text-transform: uppercase;
@@ -32,7 +32,7 @@
     &--inner {
 
         @media (min-width: $g-breakpoint--desktop) {
-            width: 60%;
+            width: calc(590px + 24px * 2);
             }
         }
     }
