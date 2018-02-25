@@ -1,0 +1,64 @@
+@import '../../base/globals';
+
+.b-filters {
+    width: 100%;
+
+    padding: 12px 16px;
+
+    background: #3397DB;
+
+    @media (min-width: $g-breakpoint--mobile-wide) {
+        padding: 20px 24px;
+        }
+    }
+    .b-filters__title {
+        margin: 0 0 6px;
+
+        color: white;
+        font-size: 16px;
+        font-weight: normal;
+        font-family: $g-font__content;
+
+        line-height: 1;
+
+        @media (min-width: $g-breakpoint--mobile-wide) {
+            margin-bottom: 10px;
+            }
+        }
+    .b-filters__select {
+        height: 35px;
+        width: 100%;
+
+        margin: 0;
+        padding: 0 10px;
+
+        background-color: white;
+        border: none;
+        box-shadow: none;
+        border-radius: 0;
+
+        font-size: 16px;
+        font-family: $g-font__content;
+
+        letter-spacing: 0;
+
+        line-height: 35px;
+
+        &:focus {
+            outline: 1px solid red;
+            outline-offset: 0;
+            }
+
+        @media (min-width: $g-breakpoint--mobile-wide) {
+            width: 200px;
+            }
+
+        & + & {
+            margin-top: 6px;
+
+            @media (min-width: $g-breakpoint--mobile-wide) {
+                margin-top: 0;
+                margin-left: 12px;
+                }
+            }
+        }

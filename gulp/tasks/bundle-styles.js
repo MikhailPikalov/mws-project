@@ -56,7 +56,6 @@ gulp.task('bundle-styles', (cb) => {
             base: manifestDestination,
             merge: true
         }))
-        .pipe(gulp.dest(manifestDestination));
-
-    return flow;
+        .pipe(gulp.dest(manifestDestination))
+        .on('end', cb);
 });

@@ -1,0 +1,63 @@
+@import '../../base/globals';
+
+.b-restaurant {
+    padding: 36px 24px 0;
+
+    @media (min-width: $g-breakpoint--tablet) {
+        }
+    }
+    .b-restaurant__title {
+        margin: 0;
+
+        color: #f18200;
+        font-size: 32px;
+        font-weight: normal;
+        font-family: $g-font__heading;
+
+        letter-spacing: 0;
+        text-transform: uppercase;
+
+        line-height: 1;
+        }
+    .b-restaurant__image {
+        display: block;
+
+        width: 100%;
+
+        margin-top: 16px;
+        }
+    .b-restaurant__cuisine {
+        margin: 0;
+        padding: 12px 0;
+
+        background-color: #333;
+
+        color: #ddd;
+        font-size: 16px;
+        font-weight: normal;
+
+        letter-spacing: 10px;
+        text-transform: uppercase;
+
+        line-height: 16px;
+
+        text-align: center;
+        }
+    .b-restaurant__address {
+        margin: 12px 0 0;
+
+        font-size: 16px;
+
+        line-height: 20px;
+        }
+    .b-restaurant__hours {
+        margin: 24px 0 0;
+        }
+        .b-restaurant__hours td {
+            padding: 0;
+
+            color: #666;
+            font-size: 16px;
+
+            line-height: 20px;
+            }

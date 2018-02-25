@@ -1,0 +1,178 @@
+@import '../../base/globals';
+
+.b-restaurants {
+    position: relative;
+
+    padding: 16px 0 24px;
+
+    overflow: hidden;
+
+    @media (min-width: $g-breakpoint--mobile-wide) {
+        padding: 24px 0 24px;
+        }
+    @media (min-width: $g-breakpoint--tablet-narrow) {
+        padding: 36px 0 24px;
+        }
+    @media (min-width: $g-breakpoint--tablet) {
+        padding-top: 48px;
+        }
+    }
+    .b-restaurants__title {
+        position: absolute;
+
+        bottom: 100%;
+        }
+    .b-restaurants__list {
+        width: 100%;
+        max-width: 1024px;
+
+        margin: 0 auto;
+        padding: 0 16px;
+
+        text-align: center;
+
+        list-style: none;
+
+        @media (min-width: $g-breakpoint--mobile-wide) {
+            padding: 0 24px;
+            }
+
+        @media (min-width: $g-breakpoint--tablet-narrow) {
+            display: flex;
+
+            justify-content: center;
+            flex-flow: row wrap;
+
+            margin-top: -24px;
+            padding: 0 12px;
+            }
+        }
+        .b-restaurants__item {
+            position: relative;
+
+            max-width: 590px;
+            margin: 0 auto;
+
+            background-color: #fff;
+            border-radius: 36px 0 48px 0;
+
+            text-align: left;
+
+            overflow: hidden;
+
+            & + & {
+                margin-top: 16px;
+                }
+
+            @media (min-width: $g-breakpoint--tablet-narrow) {
+                display: inline-block;
+
+                align-self: stretch;
+
+                width: (640px - 24px * 3) / 2; // 284px
+
+                margin: 24px 12px 0;
+
+                vertical-align: top;
+
+                & + & {
+                    margin-top: 24px;
+                    }
+                }
+            }
+            .b-restaurant__item-img-container {
+                position: relative;
+
+                height: 300px;
+                max-height: 50vw;
+
+                background: #000;
+                border-radius: 36px 0 0 0;
+
+                overflow: hidden;
+
+                @media (min-width: $g-breakpoint--tablet-narrow) {
+                    height: 200px;
+                    max-height: none;
+                    }
+                }
+                .b-restaurant__item-img {
+                    position: absolute;
+                    display: block;
+
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+
+                    width: 100%;
+
+                    margin: auto;
+
+                    background: #ccc;
+                    }
+            .b-restaurant__item-info {
+                margin-top: 16px;
+                padding: 0 16px 16px;
+
+                @media (min-width: $g-breakpoint--tablet-narrow) {
+                    padding-bottom: 68px;
+                    }
+                }
+                .b-restaurant__item-title {
+                    margin: 0;
+
+                    color: #f18200;
+                    font-size: 24px;
+                    font-weight: normal;
+                    font-family: $g-font__heading;
+
+                    letter-spacing: 0;
+
+                    line-height: 1;
+                    }
+                .b-restaurant__item-paragraph {
+                    margin: 12px 0 0;
+
+                    font-size: 14px;
+
+                    line-height: 16px;
+
+                    & + & {
+                        margin-top: 0;
+                        }
+                    }
+                .b-restaurant__item-link {
+                    display: block;
+
+                    margin: 16px 0 0;
+                    padding: 10px 0;
+
+                    background-color: orange;
+                    border-radius: 0 0 36px 0;
+
+                    color: #fff;
+                    font-size: 14px;
+
+                    text-decoration: none;
+                    text-transform: uppercase;
+
+                    line-height: 16px;
+
+                    text-align: center;
+
+                    &:focus {
+                        box-shadow: 0 0 1px 2px rgb(77, 144, 254);
+                        outline: none;
+                        }
+
+                    @media (min-width: $g-breakpoint--tablet-narrow) {
+                        position: absolute;
+
+                        left: 16px;
+                        right: 16px;
+                        bottom: 16px;
+
+                        margin: 0;
+                        }
+                    }

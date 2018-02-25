@@ -1,31 +1,38 @@
-<header>
-    <nav>
-        <h1><a href="/">Restaurant Reviews</a></h1>
-    </nav>
+<header class="b-header">
+    <h1 class="b-header__title">
+        <a href="/" class="b-header__title-link">
+            Restaurant<br class="b-header__title-link-break" />
+            Reviews
+        </a>
+    </h1>
 </header>
 
-<main id="maincontent">
-    <section id="map-container">
-        <div id="map"></div>
+<main class="b-main">
+    <section class="b-main__section b-main__section--map" aria-hidden="true">
+        <div class="b-main__map" id="map"></div>
     </section>
 
-    <section>
-        <div class="filter-options">
-            <h2>Filter Results</h2>
+    <section class="b-main__section b-main__section--content">
+        <div class="b-filters">
+            <h2 class="b-filters__title">Filter Results</h2>
 
-            <select id="neighborhoods-select" name="neighborhoods">
+            <select class="b-filters__select b-filters__select--neighborhoods" id="neighborhoods-select" aria-label="Select restaurants by neighborhood">
                 <option value="all">All Neighborhoods</option>
             </select>
 
-            <select id="cuisines-select" name="cuisines">
+            <select class="b-filters__select b-filters__select--cuisines" id="cuisines-select" aria-label="Select restaurants by cuisine">
                 <option value="all">All Cuisines</option>
             </select>
         </div>
 
-        <ul id="restaurants-list"></ul>
+        <div class="b-restaurants">
+            <h2 class="b-restaurants__title">List of restaurants found</h2>
+            <ul class="b-restaurants__list" id="restaurants-list"></ul>
+        </div>
     </section>
 </main>
 
-<footer id="footer">
-    Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+<footer class="b-footer">
+    Copyright (c) 2017 <a href="/" class="b-link">Restaurant Reviews</a> <br class="b-footer__line-break"/>
+    All Rights Reserved.
 </footer>

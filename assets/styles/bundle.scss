@@ -5,13 +5,22 @@
 @import 'base/layout';
 
 
+// Atomic
+
+@import 'components/b-link';
+
+
 // Components
 
 @import 'components/b-header';
-@import 'components/b-link';
+@import 'components/b-footer';
+@import 'components/b-main';
 
 
 // Pages
 
-@import 'pages/b-index-page';
-@import 'pages/b-restaurant-page';
+@import 'pages/index/b-filters';
+@import 'pages/index/b-restaurants';
+
+@import 'pages/restaurant/b-restaurant';
+@import 'pages/restaurant/b-restaurant-reviews';

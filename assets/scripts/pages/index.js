@@ -16,7 +16,9 @@ class Page extends PageObj {
 
         this.refs = Object.assign({}, this.refs, {
             neighborhoodsSelect: document.getElementById('neighborhoods-select'),
-            cuisinesSelect: document.getElementById('cuisines-select')
+            cuisinesSelect: document.getElementById('cuisines-select'),
+
+            restaurantsList: document.getElementById('restaurants-list')
         });
 
         this.refs.neighborhoodsSelect.addEventListener('change', (event) => {
@@ -72,7 +74,7 @@ class Page extends PageObj {
     resetRestaurants(newRestaurants) {
         // Clear restaurants HTML
 
-        const restaurantsListElement = document.getElementById('restaurants-list');
+        const restaurantsListElement = this.refs.restaurantsList;
         restaurantsListElement.innerHTML = '';
 
 
@@ -91,7 +93,7 @@ class Page extends PageObj {
     }
 
     fillRestaurantsHTML () {
-        const restaurantsListElement = document.getElementById('restaurants-list');
+        const restaurantsListElement = this.refs.restaurantsList;
 
         this.restaurants.forEach(restaurant => {
             restaurantsListElement.append(this.createRestaurantHTML(restaurant));
@@ -100,28 +102,52 @@ class Page extends PageObj {
 
     createRestaurantHTML (restaurant) {
         const restaurantElement = document.createElement('li');
+        restaurantElement.classList.add('b-restaurants__item');
+
+
+        // Image
+
+        const imageContainer = document.createElement('div');
+        imageContainer.className = 'b-restaurant__item-img-container';
+        restaurantElement.append(imageContainer);
 
         const image = document.createElement('img');
-        image.className = 'restaurant-img';
+        image.className = 'b-restaurant__item-img';
+        image.setAttribute('alt', '');
         image.src = DBHelper.imageUrlForRestaurant(restaurant);
-        restaurantElement.append(image);
+        imageContainer.append(image);
 
-        const name = document.createElement('h1');
-        name.innerHTML = restaurant.name;
-        restaurantElement.append(name);
+
+        // Info block
+
+        const info = document.createElement('div');
+        info.className = 'b-restaurant__item-info';
+        restaurantElement.append(info);
+
+        const title = document.createElement('h3');
+        title.id = `b-restaurant__item-title--${restaurant.id}`;
+        title.classList.add('b-restaurant__item-title');
+        title.innerHTML = restaurant.name;
+        info.append(title);
 
         const neighborhood = document.createElement('p');
+        neighborhood.id = `b-restaurant__item-paragraph--neighborhood--${restaurant.id}`;
+        neighborhood.classList.add('b-restaurant__item-paragraph');
         neighborhood.innerHTML = restaurant.neighborhood;
-        restaurantElement.append(neighborhood);
+        info.append(neighborhood);
 
         const address = document.createElement('p');
+        address.classList.add('b-restaurant__item-paragraph');
         address.innerHTML = restaurant.address;
-        restaurantElement.append(address);
+        info.append(address);
 
         const more = document.createElement('a');
+        more.id = `b-restaurant__item-link--${restaurant.id}`;
+        more.classList.add('b-restaurant__item-link');
         more.innerHTML = 'View Details';
         more.href = DBHelper.urlForRestaurant(restaurant);
-        restaurantElement.append(more);
+        more.setAttribute('aria-labelledby', `${more.id} ${title.id}`);
+        info.append(more);
 
         return restaurantElement;
     }

@@ -1,0 +1,105 @@
+@import '../../base/globals';
+
+.b-restaurant-reviews {
+    margin-top: 24px;
+    padding: 0 24px 48px;
+
+    @media (min-width: $g-breakpoint--tablet) {
+        }
+    }
+    .b-restaurant-reviews__title {
+        margin: 0;
+        padding-bottom: 2px;
+
+        color: #f58500;
+        font-weight: normal;
+        font-size: 32px;
+
+        letter-spacing: -1px;
+        }
+    .b-restaurant-reviews__no-reviews-message {
+        // TODO:
+        }
+    .b-restaurant-reviews__list {
+        margin: 12px 0 0;
+        padding: 0;
+
+        list-style: none;
+        }
+        .b-restaurant-reviews__item {
+            position: relative;
+            display: block;
+
+            margin: 0;
+            padding: 0;
+
+            border-radius: 16px 0 24px 0;
+            background: #fff;
+
+            overflow: hidden;
+
+            & + & {
+                margin-top: 24px;
+                }
+            }
+            .b-restaurant-reviews__item-header {
+                padding: 12px 24px 12px;
+                background: #333;
+
+                &:after {
+                    content: '';
+                    display: block;
+                    clear: both;
+                    }
+                }
+                .b-restaurant-reviews__item-reviewer {
+                    float: left;
+
+                    margin: 0;
+
+                    color: #fff;
+                    font-size: 20px;
+
+                    line-height: 1;
+                    }
+                .b-restaurant-reviews__item-date {
+                    float: right;
+
+                    margin: 0;
+
+                    color: #ddd;
+                    font-size: 14px;
+
+                    line-height: 20px;
+                    }
+            .b-restaurant-reviews__item-content {
+                padding: 16px 24px 24px;
+                }
+                .b-restaurant-reviews__item-rating {
+                    display: inline-block;
+
+                    margin: 0;
+                    padding: 4px 6px;
+
+                    background: orange;
+                    border-radius: 2px;
+
+                    color: #fff;
+                    font-size: 14px;
+                    font-weight: bold;
+
+                    text-transform: uppercase;
+
+                    line-height: 16px;
+
+                    vertical-align: top;
+                    }
+                .b-restaurant-reviews__item-comment {
+                    margin: 12px 0 0;
+
+                    color: #555;
+                    font-size: 14px;
+                    font-weight: normal;
+
+                    line-height: 20px;
+                    }

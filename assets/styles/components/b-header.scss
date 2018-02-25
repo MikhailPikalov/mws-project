@@ -1,3 +1,114 @@
+@import '../base/globals';
+
 .b-header {
-    // TODO:
+    z-index: $g-z-index__header;
+
+    &--inner {
+        position: fixed;
+
+        top: 0;
+        left: 0;
+        right: 0;
+        }
     }
+    .b-header__title {
+        margin: 0;
+        padding: 16px 0 16px;
+
+        background: #252831;
+
+        font-size: 0;
+
+        text-align: center;
+
+        @media (min-width: $g-breakpoint--mobile-wide) {
+            padding: 21px 0 25px;
+            }
+        }
+        .b-header__title-link {
+            display: inline-block;
+
+            margin-bottom: -1px;
+
+            border-bottom: 1px solid transparent;
+
+            color: #fff;
+            font-size: 24px;
+            font-weight: normal;
+            font-family: $g-font--georgia;
+
+            letter-spacing: 4px;
+
+            line-height: 24px;
+
+            text-transform: uppercase;
+            text-decoration: none;
+
+            vertical-align: top;
+
+            transition: color $g-transition__default, border $g-transition__default;
+
+            &:hover {
+                color: #f41224;
+
+                @media (min-width: $g-breakpoint--mobile-wide) {
+                    border-bottom-color: rgba(244, 18, 36, 0.3);
+                    }
+                }
+
+            @media (min-width: $g-breakpoint--mobile-wide) {
+                font-size: 28px;
+
+                line-height: 34px;
+                }
+            @media (min-width: $g-breakpoint--tablet) {
+                font-size: 34px;
+                }
+            }
+            .b-header__title-link-break {
+                @media (min-width: $g-breakpoint--mobile-wide) {
+                    display: none;
+                    }
+                }
+    .b-header__breadcrumbs {
+        position: absolute;
+
+        top: 100%;
+        left: 0;
+
+        width: 100%;
+
+        background: #eee;
+        box-shadow: 0 0 8px -3px rgba(0, 0, 0, .5);
+
+        @media (min-width: $g-breakpoint--desktop) {
+            width: 60%;
+            }
+        }
+        .b-header__breadcrumbs-list {
+            margin: 0;
+            padding: 12px 0 12px 24px;
+
+            font-size: 0;
+
+            list-style: none;
+            }
+            .b-header__breadcrumb {
+                display: inline-block;
+
+                font-size: 16px;
+
+                vertical-align: top;
+
+                & + & {
+                    &:before {
+                        content: '/';
+
+                        padding: 0 12px;
+
+                        color: black;
+                        }
+                    }
+                }
+                .b-header__breadcrumb-link {
+                    }

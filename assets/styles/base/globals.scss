@@ -12,5 +12,8 @@ $g-color__link-underscore: rgba(0, 137, 255, .3);
 $g-color__link-underscore--hover: rgba(244, 18, 36, .3);
 $g-color__link-underscore--visited: rgba(180, 14, 180, .3);
 
-$g-font-heading: Georgia, 'Times New Roman', serif;
-$g-font-content: Helvetica, Arial, sans-serif;
+$g-font--georgia: Georgia, 'Times New Roman', serif;
+$g-font--arial: Helvetica, Arial, sans-serif;
+
+$g-font__heading: $g-font--georgia;
+$g-font__content: $g-font--arial;

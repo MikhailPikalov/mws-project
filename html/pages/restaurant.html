@@ -1,34 +1,45 @@
-<header class="inside">
-    <nav>
-        <h1><a href="/">Restaurant Reviews</a></h1>
-    </nav>
+<header class="b-header b-header--inner">
+    <div class="b-header__title">
+        <a href="/" class="b-header__title-link">
+            Restaurant<br class="b-header__title-link-break" />
+            Reviews
+        </a>
+    </div>
 
-    <ul id="breadcrumbs">
-        <li><a href="/" class="b-link">Home</a></li>
-    </ul>
+    <nav class="b-header__breadcrumbs">
+        <ul class="b-header__breadcrumbs-list" id="breadcrumbs">
+            <li class="b-header__breadcrumb">
+                <a href="/" class="b-header__breadcrumb-link b-link">Home</a>
+            </li>
+        </ul>
+    </nav>
 </header>
 
-<main id="maincontent">
-    <section id="map-container" class="inside">
-        <div id="map" class="inside"></div>
+<main class="b-main b-main--inner">
+    <section class="b-main__section b-main__section--map" aria-hidden="true">
+        <div class="b-main__map" id="map"></div>
     </section>
 
-    <section id="restaurant-container">
-        <h1 id="restaurant-name"></h1>
+    <section class="b-main__section b-main__section--content">
+        <section class="b-restaurant" id="restaurant-container">
+            <h1 class="b-restaurant__title" id="restaurant-name"></h1>
 
-        <img id="restaurant-img">
+            <img class="b-restaurant__image" id="restaurant-img" />
 
-        <p id="restaurant-cuisine"></p>
-        <p id="restaurant-address"></p>
+            <p class="b-restaurant__cuisine" id="restaurant-cuisine"></p>
+            <p class="b-restaurant__address" id="restaurant-address"></p>
 
-        <table id="restaurant-hours"></table>
-    </section>
+            <table class="b-restaurant__hours" id="restaurant-hours"></table>
+        </section>
 
-    <section id="reviews-container">
-        <ul id="reviews-list"></ul>
+        <section class="b-restaurant-reviews" id="reviews-container">
+            <h2 class="b-restaurant-reviews__title">Reviews</h2>
+            <ul class="b-restaurant-reviews__list" id="reviews-list"></ul>
+        </section>
     </section>
 </main>
 
-<footer id="footer" class="inside">
-    Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+<footer class="b-footer b-footer--inner">
+    Copyright (c) 2017 <a href="/" class="b-link">Restaurant Reviews</a> <br class="b-footer__line-break"/>
+    All Rights Reserved.
 </footer>

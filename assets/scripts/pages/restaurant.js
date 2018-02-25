@@ -102,7 +102,7 @@ class Page extends PageObj {
         address.innerHTML = this.restaurant.address;
 
         const image = this.refs.restaurantImage;
-        image.className = 'restaurant-img';
+        image.className = 'b-restaurant__image';
         image.src = DBHelper.imageUrlForRestaurant(this.restaurant);
 
         const cuisine = this.refs.restaurantCuisine;
@@ -121,6 +121,7 @@ class Page extends PageObj {
         const breadcrumbs = this.refs.breadcrumbs;
 
         const li = document.createElement('li');
+        li.classList.add('b-header__breadcrumb');
         li.innerHTML = this.restaurant.name;
 
         breadcrumbs.appendChild(li);
@@ -129,7 +130,7 @@ class Page extends PageObj {
     fillRestaurantHoursHTML() {
         const hoursElement = this.refs.restaurantHours;
 
-        for (let weekDay in this.restaurant.operatingHours) {
+        for (let weekDay in this.restaurant.operating_hours) {
             const row = document.createElement('tr');
 
             const day = document.createElement('td');
@@ -137,7 +138,7 @@ class Page extends PageObj {
             row.appendChild(day);
 
             const time = document.createElement('td');
-            time.innerHTML = this.restaurant.operatingHours[weekDay];
+            time.innerHTML = this.restaurant.operating_hours[weekDay];
             row.appendChild(time);
 
             hoursElement.appendChild(row);
@@ -146,14 +147,10 @@ class Page extends PageObj {
 
     fillReviewsHTML() {
         const reviewsContainerElement = this.refs.reviewsContainer;
-        const titleElement = document.createElement('h2');
-
-        titleElement.innerHTML = 'Reviews';
-        reviewsContainerElement.appendChild(titleElement);
 
         if (!this.restaurant.reviews) {
             const noReviewsMessageElemenent = document.createElement('p');
-
+            noReviewsMessageElemenent.classList.add('b-restaurant-reviews__no-reviews-message');
             noReviewsMessageElemenent.innerHTML = 'No reviews yet!';
             reviewsContainerElement.appendChild(noReviewsMessageElemenent);
 
@@ -171,22 +168,44 @@ class Page extends PageObj {
 
     createReviewHTML (review) {
         const reviewElement = document.createElement('li');
+        reviewElement.classList.add('b-restaurant-reviews__item');
+
+
+        // Header
+
+        const header = document.createElement('header');
+        header.classList.add('b-restaurant-reviews__item-header');
 
         const name = document.createElement('p');
+        name.classList.add('b-restaurant-reviews__item-reviewer');
         name.innerHTML = review.name;
-        reviewElement.appendChild(name);
+        header.appendChild(name);
 
         const date = document.createElement('p');
+        date.classList.add('b-restaurant-reviews__item-date');
         date.innerHTML = review.date;
-        reviewElement.appendChild(date);
+        header.appendChild(date);
+
+        reviewElement.appendChild(header);
+
+
+        // Content
+
+        const content = document.createElement('div');
+        content.classList.add('b-restaurant-reviews__item-content');
 
         const rating = document.createElement('p');
+        rating.classList.add('b-restaurant-reviews__item-rating');
         rating.innerHTML = `Rating: ${review.rating}`;
-        reviewElement.appendChild(rating);
+        content.appendChild(rating);
 
         const comments = document.createElement('p');
+        comments.classList.add('b-restaurant-reviews__item-comment');
         comments.innerHTML = review.comments;
-        reviewElement.appendChild(comments);
+        content.appendChild(comments);
+
+        reviewElement.appendChild(content);
+
 
         return reviewElement;
     }
