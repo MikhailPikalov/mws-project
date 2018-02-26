@@ -2,7 +2,7 @@
  * Page object
  */
 class PageObj {
-    static getUrlParameterByName (name, url) {
+    static getUrlParameterByName(name, url) {
         url = url || window.location.href;
 
         name = name.replace(/[\[\]]/g, '\\$&');
@@ -10,7 +10,7 @@ class PageObj {
         const regex = new RegExp(`[?&]${name}(=([^&#]*)|&|#|$)`),
             results = regex.exec(url);
 
-        if (!results)return null;
+        if (!results) return null;
         if (!results[2]) return '';
 
         return decodeURIComponent(results[2].replace(/\+/g, ' '));
@@ -33,10 +33,52 @@ class PageObj {
         } else {
             window.MAP_READY_CALLBACK = this.onMapReady.bind(this);
         }
+
+        this._registerServiceWorker();
     }
 
     run() {
         this.init();
+    }
+
+    _registerServiceWorker() {
+        if (!navigator.serviceWorker) return;
+
+        navigator.serviceWorker.register('/sw.js').then((reg) => {
+            if (!navigator.serviceWorker.controller) {
+                return;
+            }
+
+            if (reg.waiting) {
+                this._updateReady(reg.waiting);
+                return;
+            }
+
+            if (reg.installing) {
+                this._trackInstalling(reg.installing);
+                return;
+            }
+
+            reg.addEventListener('updatefound', () => {
+                this._trackInstalling(reg.installing);
+            });
+        });
+    }
+
+    _trackInstalling(worker) {
+        worker.addEventListener('statechange', () => {
+            if (worker.state === 'installed') {
+                this._updateReady(worker);
+            }
+        });
+    }
+
+    _updateReady(worker) {
+        // TODO: Prompt about new version available
+
+        const promptYesCallback = () => {
+            worker.postMessage({action: 'skip-waiting'});
+        };
     }
 
     onMapReady() {

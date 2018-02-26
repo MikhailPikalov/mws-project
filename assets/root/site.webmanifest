@@ -2,7 +2,8 @@
     "name": "Restaurant Reviews",
     "short_name": "R Reviews",
     "lang": "en-US",
-    "start_url": ".",
+    "start_url": "/",
+    "scope": "/",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",

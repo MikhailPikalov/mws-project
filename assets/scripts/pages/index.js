@@ -55,8 +55,11 @@ class Page extends PageObj {
     }
 
     updateRestaurants() {
-        const cIndex = this.refs.cuisinesSelect.selectedIndex;
-        const nIndex = this.refs.neighborhoodsSelect.selectedIndex;
+        let cIndex = this.refs.cuisinesSelect.selectedIndex;
+        let nIndex = this.refs.neighborhoodsSelect.selectedIndex;
+
+        if (cIndex === -1) cIndex = this.refs.cuisinesSelect.selectedIndex = 0;
+        if (nIndex === -1) nIndex = this.refs.neighborhoodsSelect.selectedIndex = 0;
 
         const cuisine = this.refs.cuisinesSelect[cIndex].value;
         const neighborhood = this.refs.neighborhoodsSelect[nIndex].value;
