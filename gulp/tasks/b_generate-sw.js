@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const crypto = require('crypto');
 
 const gulp = require('gulp');
 const rename = require('gulp-rename');
@@ -9,29 +8,32 @@ const ejs = require('gulp-ejs');
 const config = require('../config');
 
 gulp.task('generate-sw', (cb) => {
-    // Get styles and scripts manifests
+    // Get a list of root-level static assets
 
-    const getManifest = (manifestName) => {
-        return JSON.parse(fs.readFileSync(path.resolve(path.join(config.destination, 'assets/' + manifestName))));
-    };
-
-    const webpackManifest = getManifest('webpack-manifest.json');
-    const stylesManifest = getManifest('styles-manifest.json');
+    const rootAssetsPath = './assets/root/';
+    const rootAssetsFilenames = fs.readdirSync(rootAssetsPath).filter(function (file) {
+        return !fs.statSync(path.join(rootAssetsPath, file)).isDirectory();
+    });
 
 
-    // Generate service worker static hash
+    // Get manifests, generate service worker static hash
 
-    const scriptsHashes = Object.values(webpackManifest).map(x => x.js.replace(/.*\.(.+)?\.js/g, '$1'));
-    const stylesHashes = Object.values(stylesManifest).map(x => x.replace(/.*\.(.+)?\.css/g, '$1'));
+    const manifests = config.getManifests();
+    const swHash = config.generateSwHash(manifests);
 
-    const swHash = crypto.createHash('md5').update(scriptsHashes.join('') + stylesHashes.join('')).digest('hex');
+    const {webpackManifest, stylesManifest} = manifests;
 
 
     // Build service worker, using generated previously hash for static resources as cache version
 
     gulp.src('assets/scripts/sw/index.js')
         .pipe(ejs({
-            STATIC_CACHE_VERSION: swHash
+            STATIC_CACHE_VERSION: swHash,
+
+            WEBPACK_MANIFEST: webpackManifest,
+            STYLES_MANIFEST: stylesManifest,
+
+            ROOT_ASSETS_FILENAMES: rootAssetsFilenames
         }))
         .pipe(rename({
             basename: 'sw'

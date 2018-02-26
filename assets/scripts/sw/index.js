@@ -1,37 +1,95 @@
-var staticCacheName = 'rra-static-<%= STATIC_CACHE_VERSION %>';
+// Cache for pages and css/js files
+var mainCacheName = 'rra-static-<%= STATIC_CACHE_VERSION %>';
+
+// Cache for content images
+var imagesCacheName = 'rra-images-1.0';
+
+// Cache for foreign resources
 var foreignCacheName = 'rra-foreign-1.0';
 
+
 var allCaches = [
-    staticCacheName,
+    mainCacheName,
+    imagesCacheName,
     foreignCacheName
 ];
 
+
 self.addEventListener('install', function (event) {
-    // TODO: Whatever else will be needed
+    // Application is being fully cached here, except for google maps resources and content images
+
+    var urlsToCache = [
+        '/',
+        '/restaurant.html'
+
+        <% Object.values(ROOT_ASSETS_FILENAMES).map(filename => { %>
+            ,'/<%- filename %>'
+        <% }) %>
+
+        <% Object.values(STYLES_MANIFEST).map(filename => { %>
+            ,'/assets/css/<%- filename %>'
+        <% }) %>
+
+        <% Object.values(WEBPACK_MANIFEST).map(chunk => { %>
+            ,'/assets/js/<%- chunk.js %>'
+        <% }) %>
+    ];
+
+    event.waitUntil(
+        caches.open(mainCacheName).then(function (cache) {
+            return cache.addAll(urlsToCache);
+        })
+    );
 });
 
 self.addEventListener('fetch', function (event) {
     var requestUrl = new URL(event.request.url);
 
     if (requestUrl.origin === location.origin) {
-        // Look in the cache first, if response found, use it, otherwise send network request.
-        // Send request to network to update resource anywway if cached version was used..b-filters
 
-        var response = caches.open(staticCacheName).then(function (cache) {
-            return cache.match(event.request).then(function (cachedResponse) {
-                var newFetch = fetch(event.request).then(function (networkResponse) {
-                    cache.put(event.request, networkResponse.clone());
+        // Home page
 
-                    return networkResponse;
-                }).catch(function (error) {
-                    return Response.error();
+        if (requestUrl.pathname === '/') {
+            event.respondWith(
+                caches.open(mainCacheName).then(function (cache) {
+                    return cache.match('/');
+                })
+            );
+
+            return;
+        }
+
+
+        // Restaurant page
+
+        if (requestUrl.pathname === '/restaurant.html') {
+            event.respondWith(
+                caches.open(mainCacheName).then(function (cache) {
+                    return cache.match('/restaurant.html');
+                })
+            );
+
+            return;
+        }
+
+
+        // Content images
+
+        if (requestUrl.pathname.startsWith('/assets/images/')) {
+            event.respondWith(serveContentImage(event.request));
+            return;
+        }
+
+
+        // Root assets
+
+        event.respondWith(
+            caches.open(mainCacheName).then(function (cache) {
+                return cache.match(event.request).then(function (response) {
+                    return response || fetch(event.request);
                 });
-
-                return cachedResponse || newFetch;
-            });
-        });
-
-        event.respondWith(response);
+            })
+        );
 
         return;
     }
@@ -42,19 +100,39 @@ self.addEventListener('fetch', function (event) {
     event.respondWith(
         caches.open(foreignCacheName).then(function (cache) {
             return cache.match(event.request).then(function (cachedResponse) {
-                var newFetch = fetch(event.request).then(function (networkResponse) {
+                if (cachedResponse) return cachedResponse;
+
+                return fetch(event.request).then(function (networkResponse) {
                     cache.put(event.request, networkResponse.clone());
 
                     return networkResponse;
                 }).catch(function (error) {
                     return Response.error();
                 });
-
-                return cachedResponse || newFetch;
             })
         })
     );
 });
+
+function serveContentImage(request) {
+    var storageUrl = request.url;
+
+    return caches.open(imagesCacheName).then(function (cache) {
+        return cache.match(storageUrl).then(function (response) {
+            if (response) return response;
+
+            return fetch(request).then(function (networkResponse) {
+                cache.put(storageUrl, networkResponse.clone());
+
+                return networkResponse;
+            }).catch(function (error) {
+                // TODO: Get from url requested image size
+                // TODO: Look in cache for images of other sizes, first up, then down
+                return Response.error();
+            });
+        });
+    });
+}
 
 self.addEventListener('activate', function (event) {
     // Remove all our old caches
@@ -71,6 +149,9 @@ self.addEventListener('activate', function (event) {
         })
     );
 });
+
+
+// Not used yet
 
 self.addEventListener('message', function (event) {
     if (!event.data) return;

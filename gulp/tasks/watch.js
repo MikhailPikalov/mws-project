@@ -7,6 +7,7 @@ gulp.task('watch', gulp.series(
         'watch-scripts',
         'watch-styles',
         'watch-html',
+        'watch-root-folder',
         'watch-sw',
         'watch-images'
     )

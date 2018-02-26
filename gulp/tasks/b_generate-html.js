@@ -1,6 +1,3 @@
-const fs = require('fs');
-const path = require('path');
-
 const gulp = require('gulp');
 const rename = require('gulp-rename');
 const preprocess = require('gulp-preprocess');
@@ -11,12 +8,8 @@ const config = require('../config');
 gulp.task('generate-html', (cb) => {
     // Get styles and scripts manifests
 
-    const getManifest = (manifestName) => {
-        return JSON.parse(fs.readFileSync(path.resolve(path.join(config.destination, 'assets/' + manifestName))));
-    };
-
-    const webpackManifest = getManifest('webpack-manifest.json');
-    const stylesManifest = getManifest('styles-manifest.json');
+    const manifests = config.getManifests();
+    const {webpackManifest, stylesManifest} = manifests;
 
 
     // Process pages
