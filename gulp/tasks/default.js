@@ -12,7 +12,10 @@ gulp.task('default', gulp.series(
                 'bundle-scripts',
                 'bundle-styles'
             ),
-            'generate-html'
+            gulp.parallel(
+                'generate-html',
+                'generate-sw'
+            )
         )
     )
 ));

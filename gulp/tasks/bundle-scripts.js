@@ -7,17 +7,6 @@ const webpackConfig = require('../../webpack.config');
 
 
 gulp.task('bundle-scripts', (cb) => {
-    let swDone = false,
-        webpackDone = false;
-
-    gulp.src('assets/root/sw.js')
-        .pipe(gulp.dest(config.destination))
-        .on('end', () => {
-            swDone = true;
-
-            if (webpackDone) cb();
-        });
-
     webpack(webpackConfig, (err, stats) => {
         if (err) throw new gutil.PluginError('webpack', err);
 
@@ -30,8 +19,6 @@ gulp.task('bundle-scripts', (cb) => {
 
         gutil.log('[webpack stats]', `${logText}... ${isItWatchTask ? '\n[↑ Rest of the \'webpack stats\' output omitted]' : '\n[↑ All of \'webpack\' stats]'}`);
 
-        webpackDone = true;
-
-        if (swDone) cb();
+        cb();
     });
 });

@@ -7,6 +7,7 @@ gulp.task('watch', gulp.series(
         'watch-scripts',
         'watch-styles',
         'watch-html',
+        'watch-sw',
         'watch-images'
     )
 ));
