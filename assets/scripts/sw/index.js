@@ -142,7 +142,9 @@ function serveContentImage(request) {
                         var lookupUrl = storageUrl.replace(size, lookupSize);
 
                         return cache.match(lookupUrl).then(function (cachedResponse) {
-                            return cachedResponse;
+                            if (cachedResponse) return cachedResponse;
+
+                            throw new Error();
                         });
                     });
                 });
