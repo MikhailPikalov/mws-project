@@ -13,6 +13,7 @@ class Page extends PageObj {
 
         this.refs = Object.assign({}, this.refs, {
             breadcrumbs: document.getElementById('breadcrumbs'),
+            breadcrumbsHomeLink: document.querySelector('#breadcrumbs a'),
 
             restaurantName: document.getElementById('restaurant-name'),
             restaurantAddress: document.getElementById('restaurant-address'),
@@ -22,6 +23,29 @@ class Page extends PageObj {
 
             reviewsContainer: document.getElementById('reviews-container'),
             reviewsList: document.getElementById('reviews-list')
+        });
+
+
+        // Skip map tab actions
+
+        this.refs.breadcrumbsHomeLink.addEventListener('keydown', (event) => {
+            // Tab key and no Shift key
+
+            if (event.keyCode === 9 && !event.shiftKey) {
+                event.preventDefault();
+
+                this.refs.restaurantName.focus();
+            }
+        });
+
+        this.refs.restaurantName.addEventListener('keydown', (event) => {
+            // Tab key and Shift key
+
+            if (event.keyCode === 9 && event.shiftKey) {
+                event.preventDefault();
+
+                this.refs.breadcrumbsHomeLink.focus();
+            }
         });
     }
 

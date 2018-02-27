@@ -15,6 +15,8 @@ class Page extends PageObj {
         super.init.call(this, 'map');
 
         this.refs = Object.assign({}, this.refs, {
+            headerTitleLink: document.querySelector('.b-header__title-link'),
+
             neighborhoodsSelect: document.getElementById('neighborhoods-select'),
             cuisinesSelect: document.getElementById('cuisines-select'),
 
@@ -27,6 +29,25 @@ class Page extends PageObj {
 
         this.refs.cuisinesSelect.addEventListener('change', (event) => {
             this.updateRestaurants();
+        });
+
+
+        // Skip map tab actions
+
+        this.refs.headerTitleLink.addEventListener('keydown', (event) => {
+            if (event.keyCode === 9 && !event.shiftKey) {
+                event.preventDefault();
+
+                this.refs.neighborhoodsSelect.focus();
+            }
+        });
+
+        this.refs.neighborhoodsSelect.addEventListener('keydown', (event) => {
+            if (event.keyCode === 9 && event.shiftKey) {
+                event.preventDefault();
+
+                this.refs.headerTitleLink.focus();
+            }
         });
     }
 

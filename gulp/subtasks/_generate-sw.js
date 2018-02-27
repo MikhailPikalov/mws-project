@@ -34,6 +34,8 @@ gulp.task('generate-sw', (cb) => {
             STYLES_MANIFEST: stylesManifest,
             STYLES_SERIALIZED: config.serializeCSSBundle,
 
+            CACHE_FOREIGN_RESOURCES: config.cacheForeignResources,
+
             ROOT_ASSETS_FILENAMES: rootAssetsFilenames
         }))
         .pipe(rename({

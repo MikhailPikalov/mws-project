@@ -44,7 +44,9 @@ gulp.task('generate-html', (cb) => {
                 CSS_BUNDLE_NAME: stylesManifest['bundle.css'],
 
                 VENDOR_CHUNK_NAME: webpackManifest.vendor.js,
-                PAGE_CHUNK_NAME: webpackManifest[page.key].js
+                PAGE_CHUNK_NAME: webpackManifest[page.key].js,
+
+                GOOGLE_MAPS_API_KEY: config.googleMapsApiKey
             })))
             .pipe(rename({
                 basename: page.key

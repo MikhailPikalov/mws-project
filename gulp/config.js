@@ -15,6 +15,9 @@ const watcherEventLog = (event, path) => {
 const destination = 'build';
 
 module.exports = {
+
+    // Project pages & build-time required page info
+
     pages: [{
         key: 'index',
         pageTitle: 'Restaurant Reviews'
@@ -23,13 +26,26 @@ module.exports = {
         pageTitle: 'Restaurant Info'
     }],
 
-    destination: destination,
-    production: production,
 
+    // Build settings
+
+    destination: destination,
+
+    cacheForeignResources: false,
     serializeCSSBundle: true,
+
+    googleMapsApiKey: 'AIzaSyAd8uWtGNH7nh3NVxrsQNhV-rqAWmLQdXo',
+
+
+    // Build flags
+
+    production: production,
 
     analyzeJSBundle: analyzeJSBundle,
     sourceMaps: sourceMaps,
+
+
+    // Build process helpers
 
     getManifests: () => {
         const getManifest = (manifestName) => {

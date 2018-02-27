@@ -94,7 +94,7 @@ self.addEventListener('fetch', function (event) {
 
     // Foreign requests, like google maps and analytics
 
-    event.respondWith(
+    if (<%= CACHE_FOREIGN_RESOURCES %>) event.respondWith(
         caches.open(foreignCacheName).then(function (cache) {
             return cache.match(event.request).then(function (cachedResponse) {
                 if (cachedResponse) return cachedResponse;
