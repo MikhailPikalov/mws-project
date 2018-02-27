@@ -1,3 +1,7 @@
+/**
+* Most of the code in this service worker is adapted from the 'wittr' project 
+*/
+
 // Cache for pages and css/js files
 var mainCacheName = 'rra-static-<%= STATIC_CACHE_VERSION %>';
 
@@ -26,7 +30,7 @@ self.addEventListener('install', function (event) {
             ,'/<%- filename %>'
         <% }) %>
 
-        <% Object.values(STYLES_MANIFEST).map(filename => { %>
+        <% !STYLES_SERIALIZED && Object.values(STYLES_MANIFEST).map(filename => { %>
             ,'/assets/css/<%- filename %>'
         <% }) %>
 

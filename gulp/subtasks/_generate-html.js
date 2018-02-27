@@ -1,3 +1,6 @@
+const fs = require('fs');
+const path = require('path');
+
 const gulp = require('gulp');
 const rename = require('gulp-rename');
 const preprocess = require('gulp-preprocess');
@@ -12,6 +15,20 @@ gulp.task('generate-html', (cb) => {
     const {webpackManifest, stylesManifest} = manifests;
 
 
+    // Ejs extra params
+
+    const ejsExtraParams = {};
+
+    if (config.serializeCSSBundle) {
+        // Serialize css
+
+        const absolutePathToStyleBundle = path.resolve(path.join(config.destination, 'assets/css/' + stylesManifest['bundle.css']));
+        let fileContents = fs.readFileSync(absolutePathToStyleBundle).toString();
+
+        ejsExtraParams.SERIALIZED_CSS_BUNDLE = `<style type="text/css">${fileContents}</style>`;
+    }
+
+
     // Process pages
 
     let processed = 0;
@@ -21,14 +38,14 @@ gulp.task('generate-html', (cb) => {
             .pipe(preprocess({context: {
                 PAGE_NAME: page.key
             }}))
-            .pipe(ejs({
+            .pipe(ejs(Object.assign({}, ejsExtraParams, {
                 PAGE_TITLE: page.pageTitle,
 
                 CSS_BUNDLE_NAME: stylesManifest['bundle.css'],
 
                 VENDOR_CHUNK_NAME: webpackManifest.vendor.js,
                 PAGE_CHUNK_NAME: webpackManifest[page.key].js
-            }))
+            })))
             .pipe(rename({
                 basename: page.key
             }))

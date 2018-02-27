@@ -18,7 +18,11 @@
     <meta name="msapplication-TileColor" content="#da532c" />
     <meta name="theme-color" content="#312b25" />
 
-    <link rel="stylesheet" href="/assets/css/<%= CSS_BUNDLE_NAME %>" type="text/css" />
+    <% if (typeof SERIALIZED_CSS_BUNDLE !== undefined) { %>
+        <%- SERIALIZED_CSS_BUNDLE %>
+    <% } else { %>
+        <link rel="stylesheet" href="/assets/css/<%= CSS_BUNDLE_NAME %>" type="text/css" />
+    <% } %>
 </head>
 <body>
     <!-- Page content -->

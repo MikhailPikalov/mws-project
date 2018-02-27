@@ -16,7 +16,7 @@ class Page extends PageObj {
 
             restaurantName: document.getElementById('restaurant-name'),
             restaurantAddress: document.getElementById('restaurant-address'),
-            restaurantImage: document.getElementById('restaurant-img'),
+            restaurantImageContainer: document.getElementById('restaurant-img-container'),
             restaurantCuisine: document.getElementById('restaurant-cuisine'),
             restaurantHours: document.getElementById('restaurant-hours'),
 
@@ -101,9 +101,33 @@ class Page extends PageObj {
         const address = this.refs.restaurantAddress;
         address.innerHTML = `<b>Address</b>: ${this.restaurant.address}`;
 
-        const image = this.refs.restaurantImage;
-        image.className = 'b-restaurant__image';
-        image.src = DBHelper.imageUrlForRestaurant(this.restaurant);
+
+        // Generate image HTML
+
+        const imageContainer = this.refs.restaurantImageContainer;
+        const imageFilename = this.restaurant.photograph;
+
+        Page.webpSupported(webpSupported => {
+            const ext = webpSupported ? 'webp' : 'jpg';
+            const basename = imageFilename.replace(/\..*$/, '');
+
+            const image = document.createElement('img');
+
+            image.className = 'b-restaurant__image';
+            image.setAttribute('alt', '');
+            image.setAttribute('sizes', '(max-width: 639px) calc(100vw - 48px), 590px');
+
+            image.setAttribute('srcset',
+                `/assets/images/1180/${basename}.${ext} 1180w, ` +
+                `/assets/images/590/${basename}.${ext} 590w, ` +
+                `/assets/images/568/${basename}.${ext} 568w, ` +
+                `/assets/images/284/${basename}.${ext} 284w`
+            );
+
+            image.src = `/assets/images/284/${basename}.${ext}`;
+
+            imageContainer.appendChild(image);
+        });
 
         const cuisine = this.refs.restaurantCuisine;
         cuisine.innerHTML = this.restaurant.cuisine_type;

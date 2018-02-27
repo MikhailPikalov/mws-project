@@ -26,6 +26,8 @@ module.exports = {
     destination: destination,
     production: production,
 
+    serializeCSSBundle: true,
+
     analyzeJSBundle: analyzeJSBundle,
     sourceMaps: sourceMaps,
 

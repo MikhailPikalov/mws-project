@@ -4,7 +4,7 @@ gulp.task('default', gulp.series(
     'clean-assets',
 
     gulp.parallel(
-        'bundle-images',
+        'move-images',
         'move-root-folder',
 
         gulp.series(

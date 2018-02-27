@@ -32,6 +32,7 @@ gulp.task('generate-sw', (cb) => {
 
             WEBPACK_MANIFEST: webpackManifest,
             STYLES_MANIFEST: stylesManifest,
+            STYLES_SERIALIZED: config.serializeCSSBundle,
 
             ROOT_ASSETS_FILENAMES: rootAssetsFilenames
         }))

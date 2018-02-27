@@ -21,16 +21,28 @@
 
         outline: none;
         }
-    .b-restaurant__image {
-        display: block;
-
-        width: 100%;
-        max-width: 800px;
+    .b-restaurant__image-container-sizer {
+        max-width: 590px;
 
         margin-top: 16px;
         }
+        .b-restaurant__image-container {
+            position: relative;
+
+            padding-top: 3/4 * 100%;
+            }
+            .b-restaurant__image {
+                display: block;
+
+                position: absolute;
+
+                top: 0;
+                left: 0;
+
+                width: 100%;
+                }
     .b-restaurant__cuisine {
-        max-width: 800px;
+        max-width: 590px;
 
         margin: 0;
         padding: 12px 0;

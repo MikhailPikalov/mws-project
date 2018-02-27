@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "build": "gulp",
-    "watch": "gulp watch"
+    "watch": "gulp watch",
+    "build-images": "gulp build-images"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,8 @@
     "gulp-clean-css": "^3.9.2",
     "gulp-concat": "^2.6.1",
     "gulp-ejs": "^3.1.2",
+    "gulp-image-resize": "^0.13.0",
+    "gulp-imagemin": "^4.1.0",
     "gulp-preprocess": "^2.0.0",
     "gulp-rename": "^1.2.2",
     "gulp-rev": "^8.1.1",
@@ -31,6 +34,7 @@
     "gulp-sass": "^3.1.0",
     "gulp-sourcemaps": "^2.6.4",
     "gulp-util": "^3.0.8",
+    "imagemin-webp": "^4.1.0",
     "require-dir": "^1.0.0",
     "webpack": "^3.11.0",
     "webpack-bundle-analyzer": "^2.10.1",

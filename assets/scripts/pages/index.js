@@ -99,7 +99,7 @@ class Page extends PageObj {
         const restaurantsListElement = this.refs.restaurantsList;
 
         this.restaurants.forEach(restaurant => {
-            restaurantsListElement.append(this.createRestaurantHTML(restaurant));
+            restaurantsListElement.appendChild(this.createRestaurantHTML(restaurant));
         });
     }
 
@@ -112,37 +112,55 @@ class Page extends PageObj {
 
         const imageContainer = document.createElement('div');
         imageContainer.className = 'b-restaurants__item-img-container';
-        restaurantElement.append(imageContainer);
+        restaurantElement.appendChild(imageContainer);
 
-        const image = document.createElement('img');
-        image.className = 'b-restaurants__item-img';
-        image.setAttribute('alt', '');
-        image.src = DBHelper.imageUrlForRestaurant(restaurant);
-        imageContainer.append(image);
+        const imageFilename = restaurant.photograph;
+
+        Page.webpSupported(webpSupported => {
+            const ext = webpSupported ? 'webp' : 'jpg';
+            const basename = imageFilename.replace(/\..*$/, '');
+
+            const image = document.createElement('img');
+
+            image.className = 'b-restaurants__item-img';
+            image.setAttribute('alt', '');
+            image.setAttribute('sizes', '(max-width: 639px) calc(100vw - 48px), 284px');
+
+            image.setAttribute('srcset',
+                `/assets/images/1180/${basename}.${ext} 1180w, ` +
+                `/assets/images/590/${basename}.${ext} 590w, ` +
+                `/assets/images/568/${basename}.${ext} 568w, ` +
+                `/assets/images/284/${basename}.${ext} 284w`
+            );
+
+            image.src = `/assets/images/284/${basename}.${ext}`;
+
+            imageContainer.appendChild(image);
+        });
 
 
         // Info block
 
         const info = document.createElement('div');
         info.className = 'b-restaurants__item-info';
-        restaurantElement.append(info);
+        restaurantElement.appendChild(info);
 
         const title = document.createElement('h3');
         title.id = `b-restaurants__item-title--${restaurant.id}`;
         title.classList.add('b-restaurants__item-title');
         title.innerHTML = restaurant.name;
-        info.append(title);
+        info.appendChild(title);
 
         const neighborhood = document.createElement('p');
         neighborhood.id = `b-restaurants__item-paragraph--neighborhood--${restaurant.id}`;
         neighborhood.classList.add('b-restaurants__item-paragraph');
         neighborhood.innerHTML = restaurant.neighborhood;
-        info.append(neighborhood);
+        info.appendChild(neighborhood);
 
         const address = document.createElement('p');
         address.classList.add('b-restaurants__item-paragraph');
         address.innerHTML = restaurant.address;
-        info.append(address);
+        info.appendChild(address);
 
         const more = document.createElement('a');
         more.id = `b-restaurants__item-link--${restaurant.id}`;
@@ -150,7 +168,7 @@ class Page extends PageObj {
         more.innerHTML = 'View Details';
         more.href = DBHelper.urlForRestaurant(restaurant);
         more.setAttribute('aria-labelledby', `${more.id} ${title.id}`);
-        info.append(more);
+        info.appendChild(more);
 
         return restaurantElement;
     }
@@ -196,7 +214,7 @@ class Page extends PageObj {
             option.innerHTML = neighborhood;
             option.value = neighborhood;
 
-            this.refs.neighborhoodsSelect.append(option);
+            this.refs.neighborhoodsSelect.appendChild(option);
         });
     }
 
@@ -223,7 +241,7 @@ class Page extends PageObj {
             option.innerHTML = cuisine;
             option.value = cuisine;
 
-            this.refs.cuisinesSelect.append(option);
+            this.refs.cuisinesSelect.appendChild(option);
         });
     }
 }

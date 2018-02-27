@@ -2,6 +2,22 @@
  * Page object
  */
 class PageObj {
+    // Adapted from modernizr check for webp support
+    // https://github.com/Modernizr/Modernizr/blob/master/feature-detects/img/webp-lossless.js
+    static webpSupported(cb) {
+        const image = new Image();
+
+        image.onerror = function () {
+            cb(false);
+        };
+
+        image.onload = function () {
+            cb(image.width === 1);
+        };
+
+        image.src = 'data:image/webp;base64,UklGRh4AAABXRUJQVlA4TBEAAAAvAAAAAAfQ//73v/+BiOh/AAA=';
+    }
+
     static getUrlParameterByName(name, url) {
         url = url || window.location.href;
 
@@ -14,7 +30,7 @@ class PageObj {
         if (!results[2]) return '';
 
         return decodeURIComponent(results[2].replace(/\+/g, ' '));
-    };
+    }
 
     constructor() {
         this.map = {
