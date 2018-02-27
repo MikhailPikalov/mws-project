@@ -1,5 +1,5 @@
 /**
-* Most of the code in this service worker is adapted from the 'wittr' project 
+* Some parts and some logic of the code in this service worker is adapted from the one used in 'wittr' project
 */
 
 // Cache for pages and css/js files
@@ -10,13 +10,6 @@ var imagesCacheName = 'rra-images-1.0';
 
 // Cache for foreign resources
 var foreignCacheName = 'rra-foreign-1.0';
-
-
-var allCaches = [
-    mainCacheName,
-    imagesCacheName,
-    foreignCacheName
-];
 
 
 self.addEventListener('install', function (event) {
@@ -119,20 +112,50 @@ self.addEventListener('fetch', function (event) {
 });
 
 function serveContentImage(request) {
+    // Look for image first in cache, then send network request
+    // If network is unavailable, look in cache for other sizes of the same image
+
     var storageUrl = request.url;
+    var size = +storageUrl.match(/\/([^\/]*?)\/[^.\/]*?\..*$/)[1];
 
     return caches.open(imagesCacheName).then(function (cache) {
-        return cache.match(storageUrl).then(function (response) {
-            if (response) return response;
+        return cache.match(storageUrl).then(function (cachedResponse) {
+            if (cachedResponse) return cachedResponse;
 
             return fetch(request).then(function (networkResponse) {
                 cache.put(storageUrl, networkResponse.clone());
 
                 return networkResponse;
             }).catch(function (error) {
-                // TODO: Get from url requested image size
-                // TODO: Look in cache for images of other sizes, first up, then down
-                return Response.error();
+                // Look in cache for images of other sizes, first up from current size, then down
+
+                var sizes = [284, 568, 590, 1180];
+                var lookupSizes = sizes.slice(sizes.indexOf(size) + 1).concat(sizes.slice(0, sizes.indexOf(size)).reverse());
+
+                var startLookup;
+                var lookup = new Promise(function (resolve, reject) {
+                    startLookup = reject;
+                });
+
+                lookupSizes.forEach(function (lookupSize) {
+                    lookup = lookup.catch(function () {
+                        var lookupUrl = storageUrl.replace(size, lookupSize);
+
+                        return cache.match(lookupUrl).then(function (cachedResponse) {
+                            return cachedResponse;
+                        });
+                    });
+                });
+
+                lookup = lookup.catch(function () {
+                    return Response.error();
+                });
+
+                setTimeout(function () {
+                    startLookup();
+                }, 0);
+
+                return lookup;
             });
         });
     });
@@ -145,7 +168,8 @@ self.addEventListener('activate', function (event) {
         caches.keys().then(function (cacheNames) {
             return Promise.all(
                 cacheNames.filter(function (cacheName) {
-                    return cacheName.startsWith('rra-') && !allCaches.includes(cacheName);
+                    // Clear all our own caches, except new 1. main and 2. content images caches
+                    return cacheName.startsWith('rra-') && ![mainCacheName, imagesCacheName].includes(cacheName);
                 }).map(function (cacheName) {
                     return caches.delete(cacheName);
                 })
