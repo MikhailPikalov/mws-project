@@ -182,14 +182,6 @@ class DBHelper {
 
 
     /**
-     * Restaurant image URL.
-     */
-    static imageUrlForRestaurant(restaurant) {
-        return (`/assets/images/${restaurant.photograph}`);
-    }
-
-
-    /**
      * Map marker for a restaurant.
      */
     static mapMarkerForRestaurant(restaurant, map) {
