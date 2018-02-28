@@ -12,15 +12,15 @@ class Page extends PageObj {
     }
 
     init() {
-        super.init.call(this, 'map');
+        super.init.call(this, '.b-main__map');
 
         this.refs = Object.assign({}, this.refs, {
             headerTitleLink: document.querySelector('.b-header__title-link'),
 
-            neighborhoodsSelect: document.getElementById('neighborhoods-select'),
-            cuisinesSelect: document.getElementById('cuisines-select'),
+            neighborhoodsSelect: document.querySelector('.b-filters__select--neighborhoods'),
+            cuisinesSelect: document.querySelector('.b-filters__select--cuisines'),
 
-            restaurantsList: document.getElementById('restaurants-list')
+            restaurantsList: document.querySelector('.b-restaurants__list')
         });
 
         this.refs.neighborhoodsSelect.addEventListener('change', (event) => {

@@ -9,20 +9,20 @@ class Page extends PageObj {
     }
 
     init() {
-        super.init.call(this, 'map');
+        super.init.call(this, '.b-main__map');
 
         this.refs = Object.assign({}, this.refs, {
-            breadcrumbs: document.getElementById('breadcrumbs'),
-            breadcrumbsHomeLink: document.querySelector('#breadcrumbs a'),
+            breadcrumbsList: document.querySelector('.b-header__breadcrumbs-list'),
+            breadcrumbsHomeLink: document.querySelector('.b-header__breadcrumb:first-child a'),
 
-            restaurantName: document.getElementById('restaurant-name'),
-            restaurantAddress: document.getElementById('restaurant-address'),
-            restaurantImageContainer: document.getElementById('restaurant-img-container'),
-            restaurantCuisine: document.getElementById('restaurant-cuisine'),
-            restaurantHours: document.getElementById('restaurant-hours'),
+            restaurantName: document.querySelector('.b-restaurant__title'),
+            restaurantAddress: document.querySelector('.b-restaurant__address'),
+            restaurantImageContainer: document.querySelector('.b-restaurant__image-container'),
+            restaurantCuisine: document.querySelector('.b-restaurant__cuisine'),
+            restaurantHours: document.querySelector('.b-restaurant__hours'),
 
-            reviewsContainer: document.getElementById('reviews-container'),
-            reviewsList: document.getElementById('reviews-list')
+            reviewsContainer: document.querySelector('.b-restaurant-reviews'),
+            reviewsList: document.querySelector('.b-restaurant-reviews__list')
         });
 
 
@@ -166,13 +166,11 @@ class Page extends PageObj {
     }
 
     fillBreadcrumb() {
-        const breadcrumbs = this.refs.breadcrumbs;
-
         const li = document.createElement('li');
         li.classList.add('b-header__breadcrumb');
         li.innerHTML = this.restaurant.name;
 
-        breadcrumbs.appendChild(li);
+        this.refs.breadcrumbsList.appendChild(li);
     }
 
     fillRestaurantHoursHTML() {
@@ -199,24 +197,21 @@ class Page extends PageObj {
     }
 
     fillReviewsHTML() {
-        const reviewsContainerElement = this.refs.reviewsContainer;
-
-        if (!this.restaurant.reviews) {
+        if (!this.restaurant.reviews || !this.restaurant.reviews.length) {
             const noReviewsMessageElemenent = document.createElement('p');
             noReviewsMessageElemenent.classList.add('b-restaurant-reviews__no-reviews-message');
             noReviewsMessageElemenent.innerHTML = 'No reviews yet!';
-            reviewsContainerElement.appendChild(noReviewsMessageElemenent);
+
+            this.refs.reviewsContainer.appendChild(noReviewsMessageElemenent);
+
+            this.refs.reviewsList.classList.add('b-restaurant-reviews__list--empty');
 
             return;
         }
 
-        const reviewsListElement = this.refs.reviewsList;
-
         this.restaurant.reviews.forEach(review => {
-            reviewsListElement.appendChild(this.createReviewHTML(review));
+            this.refs.reviewsList.appendChild(this.createReviewHTML(review));
         });
-
-        reviewsContainerElement.appendChild(reviewsListElement);
     }
 
     createReviewHTML (review) {

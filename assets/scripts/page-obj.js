@@ -39,9 +39,9 @@ class PageObj {
         };
     }
 
-    init(mapElementId) {
+    init(mapElementSelector) {
         this.refs = {
-            map: document.getElementById(mapElementId)
+            map: document.querySelector(mapElementSelector)
         };
 
         if (window.MAP_READY) {

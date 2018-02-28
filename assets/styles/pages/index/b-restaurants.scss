@@ -89,6 +89,9 @@
                 background: #000;
                 border-radius: 36px 0 0 0;
 
+                // Fix overflow: hidden not hiding image corner with border-radius correctly when image loads (at least in Chrome)
+                transform: translateZ(0);
+
                 overflow: hidden;
 
                 @media (min-width: $g-breakpoint--tablet-narrow) {

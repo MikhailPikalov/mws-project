@@ -15,15 +15,20 @@
         font-size: 32px;
 
         letter-spacing: -1px;
+        text-indent: -2px;
         }
     .b-restaurant-reviews__no-reviews-message {
-        // TODO:
+        margin: 16px 0 0;
         }
     .b-restaurant-reviews__list {
         margin: 12px 0 0;
         padding: 0;
 
         list-style: none;
+
+        &--empty {
+            display: none;
+            }
         }
         .b-restaurant-reviews__item {
             position: relative;

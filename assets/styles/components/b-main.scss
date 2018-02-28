@@ -1,3 +1,5 @@
+@import '../base/globals';
+
 .b-main {
     min-height: calc(100% - 80px);
 
@@ -16,8 +18,12 @@
 
         &--map {
             height: 320px;
-            min-height: 160px;
-            max-height: 50vh;
+            min-height: 140px;
+            max-height: calc(70vh - 80px - 122px); // Header height and filters block height
+
+            @media (min-width: $g-breakpoint--mobile-wide) {
+                max-height: calc(70vh - 80px - 101px); // Header height and filters block height
+                }
 
             .b-main--inner & {
                 background: blue none repeat scroll 0 0;
