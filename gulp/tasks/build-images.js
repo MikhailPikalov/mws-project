@@ -20,6 +20,8 @@ gulp.task('build-images', (cb) => {
         sizes.forEach(size => {
             gulp.src('assets/images/src/**')
                 .pipe(resize({
+                    imageMagick: config.magick,
+
                     width: size,
 
                     quality: [0.6, 0.7, 0.8, 0.9][sizes.indexOf(size)],

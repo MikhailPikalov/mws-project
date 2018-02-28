@@ -49,7 +49,7 @@ const webpackConfig = {
     },
     plugins: [
         new webpack.DefinePlugin({
-            // Proxy object to use in scripts
+            // Proxy object to use in scripts, for now is not used
             'ENV_PROXY.PRODUCTION': config.production,
         }),
 

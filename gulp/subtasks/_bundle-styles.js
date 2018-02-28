@@ -32,6 +32,8 @@ gulp.task('bundle-styles', (cb) => {
 
     let flow = gulp
         .src(path.join(stylesSource, 'bundle.scss'))
+
+        // Passed parameter is not used currently
         .pipe(preprocess({context: {PRODUCTION: config.production}}));
 
     if (!config.production) flow = flow.pipe(sourcemaps.init());

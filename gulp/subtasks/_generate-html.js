@@ -3,7 +3,6 @@ const path = require('path');
 
 const gulp = require('gulp');
 const rename = require('gulp-rename');
-const preprocess = require('gulp-preprocess');
 const ejs = require('gulp-ejs');
 
 const config = require('../config');
@@ -17,7 +16,9 @@ gulp.task('generate-html', (cb) => {
 
     // Ejs extra params
 
-    const ejsExtraParams = {};
+    const ejsExtraParams = {
+        SERIALIZED_CSS_BUNDLE: null
+    };
 
     if (config.serializeCSSBundle) {
         // Serialize css
@@ -35,10 +36,8 @@ gulp.task('generate-html', (cb) => {
 
     config.pages.forEach(page => {
         gulp.src('./html/layout.html')
-            .pipe(preprocess({context: {
-                PAGE_NAME: page.key
-            }}))
             .pipe(ejs(Object.assign({}, ejsExtraParams, {
+                PAGE_NAME: page.key,
                 PAGE_TITLE: page.pageTitle,
 
                 CSS_BUNDLE_NAME: stylesManifest['bundle.css'],

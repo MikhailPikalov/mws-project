@@ -18,7 +18,7 @@
     <meta name="msapplication-TileColor" content="#da532c" />
     <meta name="theme-color" content="#312b25" />
 
-    <% if (typeof SERIALIZED_CSS_BUNDLE !== undefined) { %>
+    <% if (SERIALIZED_CSS_BUNDLE) { %>
         <%- SERIALIZED_CSS_BUNDLE %>
     <% } else { %>
         <link rel="stylesheet" href="/assets/css/<%= CSS_BUNDLE_NAME %>" type="text/css" />
@@ -27,7 +27,7 @@
 <body>
     <!-- Page content -->
 
-    <%- include('pages/<!-- @echo PAGE_NAME -->.html') %>
+    <%- include(`pages/${PAGE_NAME}.html`) %>
 
 
     <!-- Scripts -->

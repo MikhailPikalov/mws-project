@@ -36,6 +36,8 @@ module.exports = {
 
     googleMapsApiKey: 'AIzaSyAd8uWtGNH7nh3NVxrsQNhV-rqAWmLQdXo',
 
+    magick: false, // true - ImageMagick, false - GraphicsMagick
+
 
     // Build flags
 
