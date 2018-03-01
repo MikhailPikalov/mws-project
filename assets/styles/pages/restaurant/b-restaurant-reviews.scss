@@ -1,4 +1,5 @@
 @import '../../base/globals';
+@import 'common';
 
 .b-restaurant-reviews {
     margin-top: 24px;
@@ -8,14 +9,9 @@
         }
     }
     .b-restaurant-reviews__title {
-        margin: 0;
-
-        color: #e45600;
-        font-weight: normal;
-        font-size: 32px;
+        @include p-restaurant__heading;
 
         letter-spacing: -1px;
-        text-indent: -2px;
         }
     .b-restaurant-reviews__no-reviews-message {
         margin: 16px 0 0;

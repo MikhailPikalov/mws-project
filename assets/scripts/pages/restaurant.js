@@ -19,7 +19,7 @@ class Page extends PageObj {
             restaurantAddress: document.querySelector('.b-restaurant__address'),
             restaurantImageContainer: document.querySelector('.b-restaurant__image-container'),
             restaurantCuisine: document.querySelector('.b-restaurant__cuisine'),
-            restaurantHours: document.querySelector('.b-restaurant__hours'),
+            restaurantHoursTable: document.querySelector('.b-restaurant__hours-table'),
 
             reviewsContainer: document.querySelector('.b-restaurant-reviews'),
             reviewsList: document.querySelector('.b-restaurant-reviews__list')
@@ -174,10 +174,11 @@ class Page extends PageObj {
     }
 
     fillRestaurantHoursHTML() {
-        const hoursElement = this.refs.restaurantHours;
+        const hoursTableElement = this.refs.restaurantHoursTable;
 
         for (let weekDay in this.restaurant.operating_hours) {
             const row = document.createElement('tr');
+            row.setAttribute('tabindex', 0);
 
             const day = document.createElement('td');
             day.id = `b-restaurant__hours-day-cell--${weekDay.toLowerCase()}`;
@@ -192,7 +193,7 @@ class Page extends PageObj {
 
             day.setAttribute('aria-labelledby', `${day.id} ${time.id}`);
 
-            hoursElement.appendChild(row);
+            hoursTableElement.appendChild(row);
         }
     }
 
@@ -227,11 +228,15 @@ class Page extends PageObj {
         const name = document.createElement('p');
         name.classList.add('b-restaurant-reviews__item-reviewer');
         name.innerHTML = review.name;
+        name.setAttribute('tabindex', 0);
+        name.setAttribute('aria-label', `Review by ${review.name}`);
         header.appendChild(name);
 
         const date = document.createElement('p');
         date.classList.add('b-restaurant-reviews__item-date');
         date.innerHTML = review.date;
+        date.setAttribute('tabindex', 0);
+        date.setAttribute('aria-label', `Review date ${review.date}`);
         header.appendChild(date);
 
         reviewElement.appendChild(header);
@@ -245,11 +250,13 @@ class Page extends PageObj {
         const rating = document.createElement('p');
         rating.classList.add('b-restaurant-reviews__item-rating');
         rating.innerHTML = `Rating: ${review.rating}`;
+        rating.setAttribute('tabindex', 0);
         content.appendChild(rating);
 
         const comments = document.createElement('p');
         comments.classList.add('b-restaurant-reviews__item-comment');
         comments.innerHTML = review.comments;
+        comments.setAttribute('tabindex', 0);
         content.appendChild(comments);
 
         reviewElement.appendChild(content);

@@ -1,4 +1,5 @@
 @import '../../base/globals';
+@import 'common';
 
 .b-restaurant {
     padding: 36px 24px 0;
@@ -7,29 +8,9 @@
         }
     }
     .b-restaurant__title {
-        display: inline-block;
+        @include p-restaurant__heading;
 
-        margin: -4px -6px;
-        padding: 4px 6px;
-
-        color: #e45600;
-        font-size: 32px;
-        font-weight: normal;
-        font-family: $g-font__heading;
-
-        letter-spacing: 0;
         text-transform: uppercase;
-
-        line-height: 1;
-
-        vertical-align: top;
-
-        outline: none;
-
-        &:focus {
-            box-shadow: 0 0 2px red;
-            border-radius: 2px;
-            }
         }
     .b-restaurant__image-container-sizer {
         max-width: 590px;
@@ -77,34 +58,32 @@
 
         line-height: 20px;
         }
-    .b-restaurant__hours-title {
-        margin: 24px 0 0;
-
-        color: #e45600;
-        font-weight: normal;
-        font-size: 32px;
-
-        letter-spacing: -1px;
-        text-indent: -2px;
-        }
     .b-restaurant__hours {
-        margin: 12px 0 0;
-
-        border-collapse: collapse;
+        margin: 24px 0 0;
         }
-        .b-restaurant__hours td {
-            padding: 0;
+        .b-restaurant__hours-title {
+            @include p-restaurant__heading;
 
-            color: #666;
-            font-size: 16px;
-
-            line-height: 24px;
-
-            &:first-child {
-                padding-right: 8px;
-
-                font-weight: bold;
-
-                vertical-align: top;
-                }
+            letter-spacing: -1px;
             }
+        .b-restaurant__hours-table {
+            margin: 12px 0 0;
+
+            border-collapse: collapse;
+            }
+            .b-restaurant__hours-table td {
+                padding: 0;
+
+                color: #666;
+                font-size: 16px;
+
+                line-height: 24px;
+
+                &:first-child {
+                    padding-right: 8px;
+
+                    font-weight: bold;
+
+                    vertical-align: top;
+                    }
+                }
