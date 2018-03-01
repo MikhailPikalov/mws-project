@@ -69,7 +69,7 @@ There is only one resulting `css` file — `bundle[.min].css`.
 `bundle.scss` file references all the files used in the build in the specific order: `scss` variables first, then `normalize`, then basic styles, then components and so on.
 BEM-like naming is used for `css` classes.
 
-There is an option `serializeCSSBundle` in the `gulp/config.js` file, which if set to `true` serializes contents of the bundle into `<style>` tag and puts is into `<head>` of resulting html pages.
+There is an option `serializeCSSBundle` in the `gulp/config.js` file, which if set to `true` serializes contents of the bundle into `<style>` tag and puts it into `<head>` of resulting html pages.
 By default it is set to `true`.
 If it would be set to `false`, then `css` bundle will be linked to resulting **html** files in a regular way with the `<link>` tag.
 This option also affects build of the **service worker**.
@@ -92,7 +92,7 @@ Params include:
 - hashed filename of `css` bundle or serialized content of it.
 - google maps api key.
 
-*Note: **Google maps key** is set it `gulp/config.js` file and limited to `localhost` domain.*
+*Note: **Google maps key** is set in `gulp/config.js` file and is limited to `localhost` domain.*
 
 
 #### Service worker
@@ -102,7 +102,7 @@ Service worker is built in gulp task `generate-sw`.
 - It uses parameter `cacheForeignResources` from `gulp/config.js` to decide if google maps resources need to be cached.
 By default it is `false` and google maps resources are not cached in service worker.
 - Uses parameter `serializeCSSBundle` to see if css bundle is serialized in content of pages and if the css bundle needs to be cached separately.
-By default is is `true`, and service worker does not cache css bundle separately. If set to `false`, then it would read filename of css bundle from `styles-manifest.json` and cache it.
+By default it is `true`, and service worker does not cache css bundle separately. If set to `false`, then it would read filename of css bundle from `styles-manifest.json` and cache it.
 - Reads all names of `js` chunks from `webpack-manifest.json` to decide which `js`-files to cache.
 - Reads directory `/assets/root/` for a list of icons/favicons/json/xml that also need to be cached.
 
@@ -119,7 +119,7 @@ Processed images directory: `/assets/images/processed/`
 
 Build commands are simply **copying** already processed images to the `/build/assets/images/` directory.
 
-It there is a need to resize+optimize them again, the command `npm run build-images` needs to be run.
+If there is a need to resize+optimize them again, the command `npm run build-images` needs to be run.
 For this command to correctly work, there needs to be installed either **ImageMagick** or **GraphicsMagick**.
 
 Parameter `magick` in `gulp/config.js` chooses which one is used in the build process.
