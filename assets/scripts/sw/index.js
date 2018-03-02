@@ -94,21 +94,57 @@ self.addEventListener('fetch', function (event) {
 
     // Foreign requests, like google maps and analytics
 
-    if (<%= CACHE_FOREIGN_RESOURCES %>) event.respondWith(
-        caches.open(foreignCacheName).then(function (cache) {
-            return cache.match(event.request).then(function (cachedResponse) {
-                if (cachedResponse) return cachedResponse;
+    if (<%= CACHE_FOREIGN_RESOURCES %>) {
+        var regularForeignCache = function () {
+            // Get cached request, if not cached - then send request to network and cache+return the result.
 
-                return fetch(event.request).then(function (networkResponse) {
-                    cache.put(event.request, networkResponse.clone());
+            event.respondWith(caches.open(foreignCacheName).then(function (cache) {
+                return cache.match(event.request).then(function (cachedResponse) {
+                    if (cachedResponse) return cachedResponse;
 
-                    return networkResponse;
-                }).catch(function (error) {
-                    return Response.error();
+                    return fetch(event.request).then(function (networkResponse) {
+                        cache.put(event.request, networkResponse.clone());
+
+                        return networkResponse;
+                    }).catch(function (error) {
+                        return Response.error();
+                    });
                 });
-            })
-        })
-    );
+            }));
+        };
+
+        // Map boot script
+        if (requestUrl.href.indexOf('https://maps.googleapis.com/maps/api/js?key=') === 0) {
+            regularForeignCache();
+        }
+
+        // Map fonts
+        if (requestUrl.href.indexOf('https://fonts.gstatic.com/') === 0) {
+            regularForeignCache();
+        }
+
+        // Map controls, cursor, and so on
+        if (requestUrl.href.indexOf('https://maps.gstatic.com/') === 0) {
+            regularForeignCache();
+        }
+
+        // Libraries
+        if (requestUrl.href.indexOf('https://maps.googleapis.com/') === 0) {
+            if (['common.js', 'map.js', 'util.js', 'marker.js', 'onion.js'].indexOf(requestUrl.href.split('/').reverse()[0]) !== -1) {
+                regularForeignCache();
+            }
+
+            if (requestUrl.pathname === '/maps/api/js/ViewportInfoService.GetViewportInfo') {
+                regularForeignCache();
+            }
+        }
+
+
+        // Map tiles
+        if (requestUrl.href.indexOf('https://maps.googleapis.com/maps/vt?') === 0) {
+            regularForeignCache();
+        }
+    }
 });
 
 function serveContentImage(request) {
@@ -171,7 +207,7 @@ self.addEventListener('activate', function (event) {
             return Promise.all(
                 cacheNames.filter(function (cacheName) {
                     // Clear all our own caches, except new 1. main and 2. content images caches
-                    return cacheName.startsWith('rra-') && ![mainCacheName, imagesCacheName].includes(cacheName);
+                    return cacheName.startsWith('rra-') && ![mainCacheName, imagesCacheName, foreignCacheName].includes(cacheName);
                 }).map(function (cacheName) {
                     return caches.delete(cacheName);
                 })
