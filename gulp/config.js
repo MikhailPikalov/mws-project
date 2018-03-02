@@ -31,7 +31,7 @@ module.exports = {
 
     destination: destination,
 
-    cacheForeignResources: false,
+    cacheForeignResources: true,
     serializeCSSBundle: true,
 
     googleMapsApiKey: 'AIzaSyAd8uWtGNH7nh3NVxrsQNhV-rqAWmLQdXo',
