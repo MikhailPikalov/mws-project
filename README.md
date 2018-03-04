@@ -100,7 +100,7 @@ Params include:
 Service worker is built in gulp task `generate-sw`.
 
 - It uses parameter `cacheForeignResources` from `gulp/config.js` to decide if google maps resources need to be cached.
-By default it is `false` and google maps resources are not cached in service worker.
+By default it is `true` and google maps resources are cached in service worker. Some metrics scripts from google maps are not cached and even aborted for a speed.
 - Uses parameter `serializeCSSBundle` to see if css bundle is serialized in content of pages and if the css bundle needs to be cached separately.
 By default it is `true`, and service worker does not cache css bundle separately. If set to `false`, then it would read filename of css bundle from `styles-manifest.json` and cache it.
 - Reads all names of `js` chunks from `webpack-manifest.json` to decide which `js`-files to cache.
