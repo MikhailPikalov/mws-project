@@ -78,7 +78,7 @@ self.addEventListener('fetch', function (event) {
         }
 
 
-        // Root assets
+        // Root assets & css/js
 
         event.respondWith(
             caches.open(mainCacheName).then(function (cache) {
@@ -90,6 +90,11 @@ self.addEventListener('fetch', function (event) {
 
         return;
     }
+
+
+    // Not caching requests to API
+
+    if (requestUrl.href.indexOf('http://localhost:1337') === 0) return;
 
 
     // Foreign requests, like google maps and analytics
@@ -113,37 +118,31 @@ self.addEventListener('fetch', function (event) {
             }));
         };
 
-        // Map boot script
-        if (requestUrl.href.indexOf('https://maps.googleapis.com/maps/api/js?key=') === 0) {
-            regularForeignCache();
+
+        // Skip metrics
+
+        if (requestUrl.href.indexOf('https://csi.gstatic.com/') === 0) {
+            event.respondWith(Response.error());
+            return;
         }
 
-        // Map fonts
+
+        // Skip another metric
+
+        if (requestUrl.href.indexOf('https://maps.googleapis.com/maps/api/js/QuotaService') === 0) {
+            event.respondWith(Response.error());
+            return;
+        }
+
+
+        // Skip fonts
+
         if (requestUrl.href.indexOf('https://fonts.gstatic.com/') === 0) {
-            regularForeignCache();
+            event.respondWith(Response.error());
+            return;
         }
 
-        // Map controls, cursor, and so on
-        if (requestUrl.href.indexOf('https://maps.gstatic.com/') === 0) {
-            regularForeignCache();
-        }
-
-        // Libraries
-        if (requestUrl.href.indexOf('https://maps.googleapis.com/') === 0) {
-            if (['common.js', 'map.js', 'util.js', 'marker.js', 'onion.js'].indexOf(requestUrl.href.split('/').reverse()[0]) !== -1) {
-                regularForeignCache();
-            }
-
-            if (requestUrl.pathname === '/maps/api/js/ViewportInfoService.GetViewportInfo') {
-                regularForeignCache();
-            }
-        }
-
-
-        // Map tiles
-        if (requestUrl.href.indexOf('https://maps.googleapis.com/maps/vt?') === 0) {
-            regularForeignCache();
-        }
+        regularForeignCache();
     }
 });
 

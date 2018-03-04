@@ -2,8 +2,8 @@ import DBHelper from './../dbhelper';
 import PageObj from '../page-obj';
 
 class Page extends PageObj {
-    constructor(mapElementId) {
-        super(mapElementId);
+    constructor() {
+        super();
 
         this.restaurant = null;
     }
@@ -56,10 +56,25 @@ class Page extends PageObj {
         // Get restaurant data
 
         this.fetchRestaurantFromURL((error, restaurant) => {
-            if (error) { // Got an error!
+            if (error) {
+                // Do not interrupt program, flow, just log the error
                 console.error(error);
+            }
+
+
+            if (!restaurant) {
+                // No restaurant found for any reason - interrupt
+                // TODO: Might be better to display error, maybe some distinct scenarion if it is explicitly 404
                 return;
             }
+
+
+            // Save data
+
+            this.restaurant = restaurant;
+
+
+            // Generate page by received data
 
             this.createMarkerAndAddToMap();
 
@@ -70,20 +85,14 @@ class Page extends PageObj {
     }
 
     onMapReady() {
-        super.onMapReady.call(this);
+        super.onMapReady.call(this, () => {
+            // Add restaurant marker to map only if its data is already loaded
 
-
-        // Add restaurant marker to map only if its data is already loaded
-
-        if (this.restaurant) this.createMarkerAndAddToMap();
+            if (this.restaurant) this.createMarkerAndAddToMap();
+        });
     }
 
     fetchRestaurantFromURL(callback) {
-        if (this.restaurant) { // restaurant already fetched!
-            callback(null, this.restaurant);
-            return;
-        }
-
         const id = Page.getUrlParameterByName('id');
 
         if (!id) { // no id found in URL
@@ -91,16 +100,7 @@ class Page extends PageObj {
             return;
         }
 
-        DBHelper.fetchRestaurantById(+id, (error, restaurant) => {
-            this.restaurant = restaurant;
-
-            if (!restaurant) {
-                console.error(error);
-                return;
-            }
-
-            callback(null, restaurant)
-        });
+        this.dbHelper.fetchRestaurantById(+id, callback);
     }
 
 

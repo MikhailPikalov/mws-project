@@ -61,4 +61,17 @@
             width: 100%;
 
             background: #ccc;
+
+            * {
+                font-family: 'Helvetica Neue', Arial, sans-serif !important;
+                }
+
+            .gm-style img[src^="https://maps.gstatic.com/mapfiles/api-3/images/spotlight"] {
+                height: 43px !important;
+                width: 27px !important;
+                }
+            .gmnoprint[title] {
+                height: 43px !important;
+                width: 27px !important;
+                }
             }

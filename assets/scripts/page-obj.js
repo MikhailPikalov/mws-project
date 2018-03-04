@@ -1,6 +1,10 @@
+import DBHelper from './dbhelper';
+
+
 /**
  * Page object
  */
+
 class PageObj {
     // Adapted from modernizr check for webp support
     // https://github.com/Modernizr/Modernizr/blob/master/feature-detects/img/webp-lossless.js
@@ -50,6 +54,8 @@ class PageObj {
             window.MAP_READY_CALLBACK = this.onMapReady.bind(this);
         }
 
+        this.dbHelper = new DBHelper();
+
         this._registerServiceWorker();
     }
 
@@ -97,17 +103,24 @@ class PageObj {
         };
     }
 
-    onMapReady() {
-        let loc = {
-            lat: 40.722216,
-            lng: -73.987501
-        };
+    onMapReady(callback) {
+        const initMap = function () {
+            let loc = {
+                lat: 40.722216,
+                lng: -73.987501
+            };
 
-        this.map.object = new google.maps.Map(this.refs.map, {
-            zoom: 12,
-            center: loc,
-            scrollwheel: false
-        });
+            this.map.object = new google.maps.Map(this.refs.map, {
+                zoom: 12,
+                center: loc,
+                scrollwheel: false
+            });
+
+            if (callback) callback();
+        }.bind(this);
+
+        initMap();
+
 
         (function fixTermsLink(tryNumber = 1) {
             const termsLink = document.querySelector('a[href$="terms_maps.html"]');

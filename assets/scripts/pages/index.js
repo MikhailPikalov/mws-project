@@ -2,8 +2,8 @@ import DBHelper from './../dbhelper';
 import PageObj from './../page-obj';
 
 class Page extends PageObj {
-    constructor(mapElementId) {
-        super(mapElementId);
+    constructor() {
+        super();
 
         this.neighborhoods = null;
         this.cuisines = null;
@@ -32,6 +32,33 @@ class Page extends PageObj {
         });
 
 
+
+        // Intersection observer for images
+
+        function applySrc(target) {
+             const img = target.querySelector('img');
+
+            img.srcset = img.dataset.srcset;
+            img.src = img.dataset.src;
+        }
+
+        this.io = typeof IntersectionObserver !== 'undefined'
+            ? new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+
+                    applySrc(entry.target);
+
+                    this.io.unobserve(entry.target);
+                });
+            })
+            : {
+                observe: (target) => {
+                    applySrc(target);
+                }
+            };
+
+
         // Skip map tab actions
 
         this.refs.headerTitleLink.addEventListener('keydown', (event) => {
@@ -57,25 +84,23 @@ class Page extends PageObj {
 
         // Get initial selection of restaurants
 
-        this.updateRestaurants();
+        this.updateRestaurants(() => {
+            // Select data, dependent on all restaurants data
 
-
-        // Request all additional options to select
-
-        this.fetchNeighborhoods();
-        this.fetchCuisines();
+            this.fetchNeighborhoods();
+            this.fetchCuisines();
+        });
     }
 
     onMapReady() {
-        super.onMapReady.call(this);
+        super.onMapReady.call(this, () => {
+            // Add restaurants markers to map only if restaurants are already loaded before map
 
-
-        // Add restaurants markers to map only if restaurants are already loaded
-
-        if (this.restaurants) this.createMarkersAndAddToMap();
+            if (this.restaurants) this.createMarkersAndAddToMap();
+        });
     }
 
-    updateRestaurants() {
+    updateRestaurants(callback) {
         let cIndex = this.refs.cuisinesSelect.selectedIndex;
         let nIndex = this.refs.neighborhoodsSelect.selectedIndex;
 
@@ -85,13 +110,15 @@ class Page extends PageObj {
         const cuisine = this.refs.cuisinesSelect[cIndex].value;
         const neighborhood = this.refs.neighborhoodsSelect[nIndex].value;
 
-        DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, (error, restaurants) => {
-            if (error) { // Got an error!
-                console.error(error);
-                return;
+        this.dbHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, (error, restaurants) => {
+            if (error) {
+                // Do not interrupt program flow, just log the error
+                console.log(error);
             }
 
             this.resetRestaurants(restaurants);
+
+            if (callback) callback();
         });
     }
 
@@ -137,7 +164,7 @@ class Page extends PageObj {
 
         const imageFilename = restaurant.photograph;
 
-        Page.webpSupported(webpSupported => {
+        imageFilename && Page.webpSupported(webpSupported => {
             const ext = webpSupported ? 'webp' : 'jpg';
             const basename = imageFilename.replace(/\..*$/, '');
 
@@ -147,16 +174,17 @@ class Page extends PageObj {
             image.setAttribute('alt', '');
             image.setAttribute('sizes', '(max-width: 639px) calc(100vw - 48px), 284px');
 
-            image.setAttribute('srcset',
+            image.dataset.srcset =
                 `/assets/images/1180/${basename}.${ext} 1180w, ` +
                 `/assets/images/590/${basename}.${ext} 590w, ` +
                 `/assets/images/568/${basename}.${ext} 568w, ` +
-                `/assets/images/284/${basename}.${ext} 284w`
-            );
+                `/assets/images/284/${basename}.${ext} 284w`;
 
-            image.src = `/assets/images/284/${basename}.${ext}`;
+            image.dataset.src = `/assets/images/284/${basename}.${ext}`;
 
             imageContainer.appendChild(image);
+
+            this.io.observe(imageContainer);
         });
 
 
@@ -216,16 +244,15 @@ class Page extends PageObj {
     // Neighborhoods
 
     fetchNeighborhoods () {
-        DBHelper.fetchNeighborhoods((error, neighborhoods) => {
-            if (error) { // Got an error
-                console.error(error);
-                return;
-            }
+        if (!this.restaurants) return;
 
-            this.neighborhoods = neighborhoods;
+        // Get all neighborhoods from all restaurants
+        const neighborhoods = this.restaurants.map((v, i) => this.restaurants[i].neighborhood);
 
-            this.fillNeighborhoodsHTML();
-        });
+        // Remove duplicates from neighborhoods
+        this.neighborhoods = neighborhoods.filter((v, i) => neighborhoods.indexOf(v) === i);
+
+        this.fillNeighborhoodsHTML();
     }
 
     fillNeighborhoodsHTML () {
@@ -243,16 +270,15 @@ class Page extends PageObj {
     // Cuisines
 
     fetchCuisines() {
-        DBHelper.fetchCuisines((error, cuisines) => {
-            if (error) { // Got an error!
-                console.error(error);
-                return;
-            }
+        if (!this.restaurants) return;
 
-            this.cuisines = cuisines;
+        // Get all cuisines from all restaurants
+        const cuisines = this.restaurants.map((v, i) => this.restaurants[i].cuisine_type);
 
-            this.fillCuisinesHTML();
-        });
+        // Remove duplicates from cuisines
+        this.cuisines = cuisines.filter((v, i) => cuisines.indexOf(v) === i);
+
+        this.fillCuisinesHTML();
     }
 
     fillCuisinesHTML () {
