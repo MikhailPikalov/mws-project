@@ -9,11 +9,14 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const config = require('./gulp/config');
 
 const entries = {
-    vendor: ['core-js', 'regenerator-runtime']
+    vendor: [
+        './assets/scripts/dbhelper.js',
+        './assets/scripts/page-obj.js'
+    ]
 };
 
 config.pages.forEach(page => {
-    entries[page.key] = ['babel-polyfill', `./assets/scripts/pages/${page.key}.js`];
+    entries[page.key] = [`./assets/scripts/pages/${page.key}.js`];
 });
 
 const webpackConfig = {
@@ -33,9 +36,13 @@ const webpackConfig = {
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                loaders: [
-                    'babel-loader'
-                ]
+
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-es2015']
+                    }
+                }
             },
             {
                 test: /\.ejs$/,
