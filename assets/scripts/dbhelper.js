@@ -93,45 +93,60 @@ class DBHelper {
      * Fetch all restaurants.
      */
     fetchRestaurants(callback) {
-        fetch(DBHelper.DATABASE_URL + 'restaurants/')
-            .then(response => response.json())
-            .then(restaurants => {
-                // Cache restaurants to IndexedDB
+        const regularRequest = (alreadyReceivedRestaurants) => {
+            const requestPromise = alreadyReceivedRestaurants
+                ? Promise.resolve(alreadyReceivedRestaurants)
+                : fetch(DBHelper.DATABASE_URL + 'restaurants/').then(response => response.json());
 
-                this.indexedDBPromise.then(function (db) {
-                    if (!db) return;
+            requestPromise
+                .then(restaurants => {
+                    // Cache restaurants to IndexedDB
 
-                    const tx = db.transaction('restaurants', 'readwrite');
-                    const store = tx.objectStore('restaurants');
+                    this.indexedDBPromise.then(function (db) {
+                        if (!db) return;
 
-                    restaurants.forEach(function (restaurant) {
-                        store.put(restaurant);
+                        const tx = db.transaction('restaurants', 'readwrite');
+                        const store = tx.objectStore('restaurants');
+
+                        restaurants.forEach(function (restaurant) {
+                            store.put(restaurant);
+                        });
+                    });
+
+
+                    // Return results
+
+                    callback(null, restaurants);
+                })
+                .catch(error => {
+                    const errorMessage = `Restaurants request failed: ${error.message}`;
+
+                    this.indexedDBPromise.then(function (db) {
+                        if (!db) {
+                            callback(errorMessage, null);
+
+                            return;
+                        }
+
+                        const tx = db.transaction('restaurants', 'readonly');
+                        const store = tx.objectStore('restaurants');
+
+                        store.getAll().then(restaurants => {
+                            callback(errorMessage, restaurants);
+                        });
                     });
                 });
+        };
 
-
-                // Return results
-
-                callback(null, restaurants);
-            })
-            .catch(error => {
-                const errorMessage = `Restaurants request failed: ${error.message}`;
-
-                this.indexedDBPromise.then(function (db) {
-                    if (!db) {
-                        callback(errorMessage, null);
-
-                        return;
-                    }
-
-                    const tx = db.transaction('restaurants', 'readonly');
-                    const store = tx.objectStore('restaurants');
-
-                    store.getAll().then(restaurants => {
-                        callback(errorMessage, restaurants);
-                    });
-                });
-            });
+        if (window.INITIAL_RESTAURANTS_REQUEST_PENDING) {
+            window.RESTAURANTS_REQUEST_REGULAR = regularRequest.bind(this);
+        } else {
+            if (window.INITIAL_RESTAURANTS) {
+                regularRequest(window.INITIAL_RESTAURANTS);
+            } else {
+                regularRequest();
+            }
+        }
     }
 
     /**

@@ -36,3 +36,22 @@
     Copyright (c) 2017 <a href="/" class="b-link b-link--lighter">Restaurant Reviews</a> <br class="b-footer__line-break"/>
     All Rights Reserved.
 </footer>
+
+<script type="text/javascript">
+    window.INITIAL_RESTAURANTS = null;
+    window.INITIAL_RESTAURANTS_REQUEST_PENDING = true;
+
+    fetch('http://localhost:1337/restaurants/')
+        .then(response => response.json())
+        .then(restaurants => {
+            window.INITIAL_RESTAURANTS_REQUEST_PENDING = false;
+
+            window.INITIAL_RESTAURANTS = restaurants;
+
+            if (window.RESTAURANTS_REQUEST_REGULAR) window.RESTAURANTS_REQUEST_REGULAR(window.INITIAL_RESTAURANTS);
+        }).catch(error => {
+            window.INITIAL_RESTAURANTS_REQUEST_PENDING = false;
+
+            if (window.RESTAURANTS_REQUEST_REGULAR) window.RESTAURANTS_REQUEST_REGULAR();
+        });
+</script>
