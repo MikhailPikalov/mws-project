@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "server": "cd ./build/ && serve -p 8000",
     "build": "gulp",
     "watch": "gulp watch",
     "build-images": "gulp build-images"
@@ -33,6 +34,7 @@
     "idb": "^2.0.4",
     "imagemin-webp": "^4.1.0",
     "require-dir": "^1.0.0",
+    "serve": "^6.5.3",
     "webpack": "^3.11.0",
     "webpack-bundle-analyzer": "^2.10.1",
     "webpack-md5-hash": "0.0.6"
