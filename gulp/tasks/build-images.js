@@ -5,6 +5,8 @@ const resize = require('gulp-image-resize');
 const imagemin = require('gulp-imagemin');
 const imageminWebP = require('imagemin-webp');
 
+const config = require('../config');
+
 gulp.task('build-images', (cb) => {
     del([
         'assets/images/processed/',
@@ -33,9 +35,25 @@ gulp.task('build-images', (cb) => {
 
                     resizesDone++;
 
-                    if (resizesDone === sizes.length) optimizeAndMakeWebP();
+                    if (resizesDone === sizes.length + 1) optimizeAndMakeWebP();
                 });
         });
+
+        gulp.src('assets/images/src/**')
+            .pipe(resize({
+                imageMagick: config.magick,
+
+                width: 100,
+                quality: [0.4]
+            }))
+            .pipe(gulp.dest(`assets/images/processed/preview/`))
+            .on('end', () => {
+                console.log(`✔ Resize to ${200}px (preview) done.`);
+
+                resizesDone++;
+
+                if (resizesDone === sizes.length + 1) optimizeAndMakeWebP();
+            });
     }
 
     function optimizeAndMakeWebP() {

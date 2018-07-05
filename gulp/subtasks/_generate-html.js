@@ -30,6 +30,16 @@ gulp.task('generate-html', (cb) => {
     }
 
 
+    // Generate image previews in base64
+
+    function base64_encode(file) {
+        let bitmap = fs.readFileSync(path.resolve(file));
+        return 'data:image/jpeg;base64,' + new Buffer(bitmap).toString('base64');
+    }
+
+    ejsExtraParams.RESTAURANT_IMAGES_PREVIEWS = new Array(10).fill(0).map((x, i) => base64_encode(path.join(config.destination, `/assets/images/preview/${i + 1}.jpg`)));
+
+
     // Process pages
 
     let processed = 0;
