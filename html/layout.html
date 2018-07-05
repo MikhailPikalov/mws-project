@@ -37,6 +37,29 @@
 
         window.MAP_READY_CALLBACK = function () {
             window.MAP_READY = true;
+
+        };
+
+
+        // Prevent loading of not needed scripts from google maps
+
+        window.appendChildHeadBackup = document.head.appendChild;
+
+        document.head.appendChild = function (child) {
+            if (child instanceof HTMLScriptElement && child.src) {
+                var preventLoading = [
+                    'AuthenticationService.Authenticate',
+                    'stats.js',
+                    'onion.js',
+                    'QuotaService.RecordEvent'
+                ].some(function (test) {
+                    return child.src.indexOf(test) !== -1;
+                });
+
+                if (preventLoading) return;
+            }
+
+            return appendChildHeadBackup.call(document.head, child);
         };
     </script>
 
