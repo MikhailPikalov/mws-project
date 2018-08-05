@@ -27,7 +27,7 @@ self.addEventListener('install', function (event) {
             ,'/assets/css/<%- filename %>'
         <% }) %>
 
-        <% Object.values(WEBPACK_MANIFEST).map(chunk => { %>
+        <% !SCRIPTS_SERIALIZED && Object.values(WEBPACK_MANIFEST).map(chunk => { %>
             ,'/assets/js/<%- chunk.js %>'
         <% }) %>
     ];
