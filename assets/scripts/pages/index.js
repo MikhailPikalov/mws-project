@@ -176,7 +176,7 @@ class Page extends PageObj {
         imagePlaceholder.className = 'b-restaurants__item-img-placeholder';
 
         const backgroundImage = window.RESTAURANTS_PLACEHOLDER_IMAGES[restaurant.id - 1]; // -1 because restaurants ids start with 1
-        if (backgroundImage) imagePlaceholder.style.backgroundImage = backgroundImage;
+        if (backgroundImage) imagePlaceholder.style.backgroundImage = 'url(' + backgroundImage + ')';
 
         imageContainer.appendChild(imagePlaceholder);
 

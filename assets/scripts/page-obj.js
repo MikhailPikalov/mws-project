@@ -1,6 +1,15 @@
 import DBHelper from './dbhelper';
 
 
+function appendGoogleMaps() {
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${window.GOOGLE_MAPS_API_KEY}&language=en&v=3.32.13&callback=MAP_READY_CALLBACK`;
+
+    document.body.appendChild(script);
+}
+
+
 /**
  * Page object
  */
@@ -44,23 +53,72 @@ class PageObj {
     }
 
     init(mapElementSelector) {
+        this.dbHelper = new DBHelper();
+
         this.refs = {
             map: document.querySelector(mapElementSelector)
         };
 
-        if (window.MAP_READY) {
-            this.onMapReady();
-        } else {
-            window.MAP_READY_CALLBACK = this.onMapReady.bind(this);
-        }
+        window.MAP_READY_CALLBACK = this.onMapReady.bind(this);
 
-        this.dbHelper = new DBHelper();
+        appendGoogleMaps();
 
         this._registerServiceWorker();
     }
 
     run() {
         this.init();
+    }
+
+    onMapReady(callback) {
+        const mapElement = document.querySelector('.b-main__map');
+
+        this.map.object = new google.maps.Map(mapElement, {
+            zoom: 12,
+            center: {
+                lat: 40.722216,
+                lng: -73.987501
+            },
+
+            scaleControl: false,
+            scrollwheel: false,
+            rotateControl: false,
+            fullscreenControl: false,
+
+            mapTypeControl: true,
+            mapTypeControlOptions: {
+                style: google.maps.MapTypeControlStyle.DEFAULT,
+                mapTypeIds: ['roadmap', 'satellite'],
+                position: google.maps.ControlPosition.TOP_LEFT
+            },
+
+            zoomControl: true,
+            zoomControlOptions: {
+                position: google.maps.ControlPosition.RIGHT_BOTTOM
+            },
+
+            streetViewControl: false
+        });
+
+        if (callback) callback();
+
+
+        // Some fixes for 'best practices' audit in lighthouse
+
+        (function fixTermsLink(tryNumber = 1) {
+            const termsLink = document.querySelector('a[href$="terms_maps.html"]'),
+                  seeOnGoogleMapsLink = document.querySelector('a[href^="https://maps.google.com/maps?ll"]');
+
+            if (termsLink) {
+                termsLink.setAttribute('rel', 'noopener');
+                seeOnGoogleMapsLink.setAttribute('rel', 'noopener');
+                return;
+            }
+
+            if (tryNumber < 100) setTimeout(() => {
+                fixTermsLink(tryNumber + 1);
+            }, 100);
+        })();
     }
 
     _registerServiceWorker() {
@@ -101,39 +159,6 @@ class PageObj {
         const promptYesCallback = () => {
             worker.postMessage({action: 'skip-waiting'});
         };
-    }
-
-    onMapReady(callback) {
-        const initMap = function () {
-            let loc = {
-                lat: 40.722216,
-                lng: -73.987501
-            };
-
-            this.map.object = new google.maps.Map(this.refs.map, {
-                zoom: 12,
-                center: loc,
-                scrollwheel: false
-            });
-
-            if (callback) callback();
-        }.bind(this);
-
-        initMap();
-
-
-        (function fixTermsLink(tryNumber = 1) {
-            const termsLink = document.querySelector('a[href$="terms_maps.html"]');
-
-            if (termsLink) {
-                termsLink.setAttribute('rel', 'noopener');
-                return;
-            }
-
-            if (tryNumber < 100) setTimeout(() => {
-                fixTermsLink(tryNumber + 1);
-            }, 100);
-        })();
     }
 }
 

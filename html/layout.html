@@ -18,6 +18,8 @@
     <meta name="msapplication-TileColor" content="#da532c" />
     <meta name="theme-color" content="#312b25" />
 
+    <meta name="description" content="Restaurants reviews" />
+
     <% if (SERIALIZED_CSS_BUNDLE) { %>
         <%- SERIALIZED_CSS_BUNDLE %>
     <% } else { %>
@@ -33,12 +35,7 @@
     <!-- Scripts -->
 
     <script type="text/javascript">
-        window.MAP_READY = false;
-
-        window.MAP_READY_CALLBACK = function () {
-            window.MAP_READY = true;
-
-        };
+        window.GOOGLE_MAPS_API_KEY = '<%= GOOGLE_MAPS_API_KEY %>';
 
 
         // Prevent loading of not needed scripts from google maps
@@ -62,9 +59,6 @@
             return appendChildHeadBackup.call(document.head, child);
         };
     </script>
-
-
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=<%= GOOGLE_MAPS_API_KEY %>&language=en&v=3.32.13&callback=MAP_READY_CALLBACK"></script>
 
     <% if (SERIALIZED_JS_VENDOR_BUNDLE) { %>
         <%- SERIALIZED_JS_VENDOR_BUNDLE %>
