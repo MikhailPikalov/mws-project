@@ -36,7 +36,9 @@ class Page extends PageObj {
         // Intersection observer for images
 
         function applySrc(target) {
-             const img = target.querySelector('img');
+            target.classList.add('b-restaurants__item-img-container--visible');
+
+            const img = target.querySelector('img');
 
             img.srcset = img.dataset.srcset;
             img.src = img.dataset.src;
@@ -156,11 +158,26 @@ class Page extends PageObj {
         restaurantElement.classList.add('b-restaurants__item');
 
 
-        // Image
+        // Image container
 
         const imageContainer = document.createElement('div');
-        imageContainer.className = 'b-restaurants__item-img-container';
+        // First restaurant image always visible even without observer
+        imageContainer.className = `b-restaurants__item-img-container ${restaurant.id === 1 ? 'b-restaurants__item-img-container--visible' : ''}`;
         restaurantElement.appendChild(imageContainer);
+
+
+        // Placeholder
+
+        const imagePlaceholder = document.createElement('div');
+        imagePlaceholder.className = 'b-restaurants__item-img-placeholder';
+
+        const backgroundImage = window.RESTAURANTS_PLACEHOLDER_IMAGES[restaurant.id - 1]; // -1 because restaurants ids start with 1
+        if (backgroundImage) imagePlaceholder.style.backgroundImage = backgroundImage;
+
+        imageContainer.appendChild(imagePlaceholder);
+
+
+        // Image
 
         const imageFilename = restaurant.photograph;
 

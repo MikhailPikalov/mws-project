@@ -35,7 +35,20 @@
 
         <div class="b-restaurants">
             <h2 class="b-restaurants__title">List of restaurants found</h2>
-            <ul class="b-restaurants__list"></ul>
+            <ul class="b-restaurants__list">
+                <li class="b-restaurants__item">
+                    <div class="b-restaurants__item-img-container b-restaurants__item-img-container--visible">
+                        <div class="b-restaurants__item-img-placeholder" style="background-image: url('<%= RESTAURANTS_PLACEHOLDER_IMAGES[0] %>');"></div>
+                    </div>
+                    
+                    <div class="b-restaurants__item-info">
+                        <h3 class="b-restaurants__item-title">~~~~</h3>
+                        <p class="b-restaurants__item-paragraph">~~~~</p>
+                        <p class="b-restaurants__item-paragraph">~~~~</p>
+                        <div class="b-restaurants__item-link">Loading...</div>
+                    </div>
+                </li>
+            </ul>
         </div>
     </section>
 </main>
@@ -46,6 +59,8 @@
 </footer>
 
 <script type="text/javascript">
+    window.RESTAURANTS_PLACEHOLDER_IMAGES = <%= JSON.stringify(RESTAURANTS_PLACEHOLDER_IMAGES) %>;
+
     window.INITIAL_RESTAURANTS = null;
     window.INITIAL_RESTAURANTS_REQUEST_PENDING = true;
 

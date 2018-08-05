@@ -54,11 +54,8 @@
             margin: 0 auto;
 
             background-color: #fff;
-            border-radius: 36px 0 48px 0;
 
             text-align: left;
-
-            overflow: hidden;
 
             & + & {
                 margin-top: 16px;
@@ -87,21 +84,24 @@
                 max-height: 50vw;
 
                 background: #000;
-                border-radius: 36px 0 0 0;
 
-                // Fix overflow: hidden not hiding image corner with border-radius correctly when image loads (at least in Chrome)
-                transform: translateZ(0);
+                visibility: hidden;
 
                 overflow: hidden;
+
+                &--visible {
+                    visibility: visible;
+                    }
 
                 @media (min-width: $g-breakpoint--tablet-narrow) {
                     height: 200px;
                     max-height: none;
                     }
                 }
-                .b-restaurants__item-img {
+                .b-restaurants__item-img,
+                .b-restaurants__item-img-placeholder {
                     position: absolute;
-                    display: block;
+                    display: none;
 
                     top: 0;
                     bottom: 0;
@@ -112,7 +112,16 @@
 
                     margin: auto;
 
-                    background: #ccc;
+                    .b-restaurants__item-img-container--visible & {
+                        display: block;
+                        }
+                    }
+                .b-restaurants__item-img-placeholder {
+                    height: 0;
+
+                    padding-top: calc(3 / 4 * 100%);
+
+                    background-size: cover;
                     }
             .b-restaurants__item-info {
                 margin-top: 16px;
@@ -152,7 +161,6 @@
                     padding: 10px 0;
 
                     background-color: #af5e00;
-                    border-radius: 0 0 36px 0;
 
                     color: #fff;
                     font-size: 14px;
