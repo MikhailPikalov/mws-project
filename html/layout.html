@@ -63,10 +63,20 @@
         };
     </script>
 
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=<%= GOOGLE_MAPS_API_KEY %>&language=en&callback=MAP_READY_CALLBACK"></script>
 
-    <script src="/assets/js/<%= VENDOR_CHUNK_NAME %>"></script>
-    <script src="/assets/js/<%= PAGE_CHUNK_NAME %>"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=<%= GOOGLE_MAPS_API_KEY %>&language=en&v=3.32.13&callback=MAP_READY_CALLBACK"></script>
+
+    <% if (SERIALIZED_JS_VENDOR_BUNDLE) { %>
+        <%- SERIALIZED_JS_VENDOR_BUNDLE %>
+    <% } else { %>
+        <script src="/assets/js/<%= VENDOR_CHUNK_NAME %>"></script>
+    <% } %>
+
+    <% if (SERIALIZED_JS_PAGE_BUNDLES) { %>
+        <%- SERIALIZED_JS_PAGE_BUNDLES[PAGE_NAME] %>
+    <% } else { %>
+        <script src="/assets/js/<%= PAGE_CHUNK_NAME %>"></script>
+    <% } %>
 
     <script type="text/javascript">
         window.Page.run();

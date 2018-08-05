@@ -17,7 +17,10 @@ gulp.task('generate-html', (cb) => {
     // Ejs extra params
 
     const ejsExtraParams = {
-        SERIALIZED_CSS_BUNDLE: null
+        SERIALIZED_CSS_BUNDLE: null,
+
+        SERIALIZED_JS_VENDOR_BUNDLE: null,
+        SERIALIZED_JS_PAGE_BUNDLES: null,
     };
 
     if (config.serializeCSSBundle) {
@@ -27,6 +30,27 @@ gulp.task('generate-html', (cb) => {
         let fileContents = fs.readFileSync(absolutePathToStyleBundle).toString();
 
         ejsExtraParams.SERIALIZED_CSS_BUNDLE = `<style type="text/css">${fileContents}</style>`;
+    }
+
+    if (config.serializeJSBundles) {
+        // Vendor
+
+        const absolutePathToVendorScriptBundle = path.resolve(path.join(config.destination, 'assets/js/' + webpackManifest.vendor.js));
+        let fileContents = fs.readFileSync(absolutePathToVendorScriptBundle).toString();
+
+        ejsExtraParams.SERIALIZED_JS_VENDOR_BUNDLE = `<script type="text/javascript">${fileContents}</script>`;
+
+
+        // Pages
+
+        ejsExtraParams.SERIALIZED_JS_PAGE_BUNDLES = {};
+
+        config.pages.forEach(page => {
+            const absolutePathToPageScriptBundle = path.resolve(path.join(config.destination, 'assets/js/' + webpackManifest[page.key].js));
+            let fileContents = fs.readFileSync(absolutePathToPageScriptBundle).toString();
+
+            ejsExtraParams.SERIALIZED_JS_PAGE_BUNDLES[page.key] = `<script type="text/javascript">${fileContents}</script>`;
+        });
     }
 
 

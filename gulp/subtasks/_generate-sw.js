@@ -33,6 +33,7 @@ gulp.task('generate-sw', (cb) => {
             WEBPACK_MANIFEST: webpackManifest,
             STYLES_MANIFEST: stylesManifest,
             STYLES_SERIALIZED: config.serializeCSSBundle,
+            SCRIPTS_SERIALIZED: config.serializeJSBundles,
 
             CACHE_FOREIGN_RESOURCES: config.cacheForeignResources,
 
