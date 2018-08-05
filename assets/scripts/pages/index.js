@@ -38,6 +38,9 @@ class Page extends PageObj {
         function applySrc(target) {
             target.classList.add('b-restaurants__item-img-container--visible');
 
+            // const placeholder = target.querySelector('div');
+            // if (placeholder) target.removeChild(placeholder);
+
             const img = target.querySelector('img');
 
             img.srcset = img.dataset.srcset;
@@ -125,12 +128,6 @@ class Page extends PageObj {
     }
 
     resetRestaurants(newRestaurants) {
-        // Clear restaurants HTML
-
-        const restaurantsListElement = this.refs.restaurantsList;
-        restaurantsListElement.innerHTML = '';
-
-
         // Save new restaurants & make new HTML
 
         this.restaurants = newRestaurants;
@@ -146,11 +143,18 @@ class Page extends PageObj {
     }
 
     fillRestaurantsHTML () {
+        // Generate restaurants HTML
+
         const restaurantsListElement = this.refs.restaurantsList;
 
+        const newRestaurantsFragment = document.createDocumentFragment();
+
         this.restaurants.forEach(restaurant => {
-            restaurantsListElement.appendChild(this.createRestaurantHTML(restaurant));
+            newRestaurantsFragment.appendChild(this.createRestaurantHTML(restaurant));
         });
+
+        restaurantsListElement.innerHTML = '';
+        restaurantsListElement.appendChild(newRestaurantsFragment);
     }
 
     createRestaurantHTML (restaurant) {
