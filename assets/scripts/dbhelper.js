@@ -52,38 +52,6 @@ class DBHelper {
 
     /**
      * *****************************************
-     * Static helpers
-     * *****************************************
-     */
-
-
-    /**
-     * Restaurant page URL.
-     */
-    static urlForRestaurant(restaurant) {
-        return (`./restaurant.html?id=${restaurant.id}`);
-    }
-
-    /**
-     * Map marker for a restaurant.
-     */
-    static mapMarkerForRestaurant(restaurant, map) {
-        if (typeof google === 'undefined') return null;
-
-        const marker = new google.maps.Marker({
-            position: restaurant.latlng,
-            title: restaurant.name,
-            url: DBHelper.urlForRestaurant(restaurant),
-            map: map,
-            animation: google.maps.Animation.DROP
-        });
-
-        return marker;
-    }
-
-
-    /**
-     * *****************************************
      * Dynamic methods
      * *****************************************
      */

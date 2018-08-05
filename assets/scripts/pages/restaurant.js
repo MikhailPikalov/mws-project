@@ -1,5 +1,7 @@
-import DBHelper from './../dbhelper';
 import PageObj from '../page-obj';
+
+import RestaurantHelper from './../restaurant-helper';
+import FavoritesHelper from './../favorites-helper';
 
 class Page extends PageObj {
     constructor() {
@@ -128,7 +130,7 @@ class Page extends PageObj {
     // Map markers
 
     createMarkerAndAddToMap() {
-        const marker = DBHelper.mapMarkerForRestaurant(this.restaurant, this.map.object);
+        const marker = RestaurantHelper.mapMarkerForRestaurant(this.restaurant, this.map.object);
         if (!marker) return;
 
         if (typeof google === 'undefined') return;

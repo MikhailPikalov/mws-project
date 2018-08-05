@@ -1,5 +1,7 @@
-import DBHelper from './../dbhelper';
 import PageObj from './../page-obj';
+
+import RestaurantHelper from './../restaurant-helper';
+import FavoritesHelper from './../favorites-helper';
 
 class Page extends PageObj {
     constructor() {
@@ -255,7 +257,7 @@ class Page extends PageObj {
         more.id = `b-restaurants__item-link--${restaurant.id}`;
         more.classList.add('b-restaurants__item-link');
         more.innerHTML = 'View Details';
-        more.href = DBHelper.urlForRestaurant(restaurant);
+        more.href = RestaurantHelper.urlForRestaurant(restaurant);
         more.setAttribute('aria-labelledby', `${more.id} ${title.id}`);
         info.appendChild(more);
 
@@ -267,7 +269,7 @@ class Page extends PageObj {
 
     createMarkersAndAddToMap() {
         this.restaurants.forEach(restaurant => {
-            const marker = DBHelper.mapMarkerForRestaurant(restaurant, this.map.object);
+            const marker = RestaurantHelper.mapMarkerForRestaurant(restaurant, this.map.object);
             if (!marker) return;
 
             if (typeof google === 'undefined') return;
