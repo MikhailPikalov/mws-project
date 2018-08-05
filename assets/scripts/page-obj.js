@@ -61,7 +61,41 @@ class PageObj {
 
         window.MAP_READY_CALLBACK = this.onMapReady.bind(this);
 
-        appendGoogleMaps();
+
+        // Google maps
+
+        function enableMap() {
+            const mapSectionElement = document.querySelector('.b-main__section--map');
+            mapSectionElement.classList.add('b-main__section--map-enabled');
+
+            appendGoogleMaps();
+        }
+
+        function shouldMapBeEnabled() {
+            return window.innerWidth >= 640;
+        }
+
+        const enableMapsFromTheStart = shouldMapBeEnabled();
+
+        if (enableMapsFromTheStart) {
+            enableMap();
+        } else {
+            const seeOnGoogleMapsButton = document.querySelector('.b-main__map-enable-button');
+            seeOnGoogleMapsButton.addEventListener('click', (event) => {
+                enableMap()
+            });
+
+            window.addEventListener('resize', function onWindowResizeMapFix(event) {
+                if (!shouldMapBeEnabled()) return;
+
+                enableMap();
+
+                window.removeEventListener('resize', onWindowResizeMapFix);
+            });
+        }
+
+
+        // Service worker
 
         this._registerServiceWorker();
     }
@@ -98,6 +132,10 @@ class PageObj {
             },
 
             streetViewControl: false
+        });
+
+        google.maps.event.addListenerOnce(this.map.object, 'tilesloaded', () => {
+            mapElement.classList.add('b-main__map--tiles-loaded');
         });
 
         if (callback) callback();

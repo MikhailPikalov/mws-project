@@ -17,6 +17,9 @@ class Page extends PageObj {
         this.refs = Object.assign({}, this.refs, {
             headerTitleLink: document.querySelector('.b-header__title-link'),
 
+            mapSection: document.querySelector('.b-main__section--map'),
+            mapEnableButton: document.querySelector('.b-main__map-enable-button'),
+
             neighborhoodsSelect: document.querySelector('.b-filters__select--neighborhoods'),
             cuisinesSelect: document.querySelector('.b-filters__select--cuisines'),
 
@@ -70,11 +73,27 @@ class Page extends PageObj {
             if (event.keyCode === 9 && !event.shiftKey) {
                 event.preventDefault();
 
-                this.refs.neighborhoodsSelect.focus();
+                if (!this.refs.mapSection.classList.contains('b-main__section--map-enabled')) {
+                    this.refs.mapEnableButton.focus();
+                } else {
+                    this.refs.neighborhoodsSelect.focus();
+                }
             }
         });
 
         this.refs.neighborhoodsSelect.addEventListener('keydown', (event) => {
+            if (event.keyCode === 9 && event.shiftKey) {
+                event.preventDefault();
+
+                if (!this.refs.mapSection.classList.contains('b-main__section--map-enabled')) {
+                    this.refs.mapEnableButton.focus();
+                } else {
+                    this.refs.headerTitleLink.focus();
+                }
+            }
+        });
+
+        this.refs.mapEnableButton.addEventListener('keydown', (event) => {
             if (event.keyCode === 9 && event.shiftKey) {
                 event.preventDefault();
 

@@ -15,6 +15,9 @@ class Page extends PageObj {
             breadcrumbsList: document.querySelector('.b-header__breadcrumbs-list'),
             breadcrumbsHomeLink: document.querySelector('.b-header__breadcrumb:first-child a'),
 
+            mapSection: document.querySelector('.b-main__section--map'),
+            mapEnableButton: document.querySelector('.b-main__map-enable-button'),
+
             restaurantName: document.querySelector('.b-restaurant__title'),
             restaurantAddress: document.querySelector('.b-restaurant__address'),
             restaurantImageContainer: document.querySelector('.b-restaurant__image-container'),
@@ -34,11 +37,29 @@ class Page extends PageObj {
             if (event.keyCode === 9 && !event.shiftKey) {
                 event.preventDefault();
 
-                this.refs.restaurantName.focus();
+                if (!this.refs.mapSection.classList.contains('b-main__section--map-enabled')) {
+                    this.refs.mapEnableButton.focus();
+                } else {
+                    this.refs.restaurantName.focus();
+                }
             }
         });
 
         this.refs.restaurantName.addEventListener('keydown', (event) => {
+            // Tab key and Shift key
+
+            if (event.keyCode === 9 && event.shiftKey) {
+                event.preventDefault();
+
+                if (!this.refs.mapSection.classList.contains('b-main__section--map-enabled')) {
+                    this.refs.mapEnableButton.focus();
+                } else {
+                    this.refs.breadcrumbsHomeLink.focus();
+                }
+            }
+        });
+
+        this.refs.mapEnableButton.addEventListener('keydown', (event) => {
             // Tab key and Shift key
 
             if (event.keyCode === 9 && event.shiftKey) {
