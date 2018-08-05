@@ -1,6 +1,8 @@
 @import '../base/globals';
 
 .b-header {
+    transform: translateZ(0);
+
     z-index: $g-z-index__header;
 
     &--inner {

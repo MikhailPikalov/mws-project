@@ -19,6 +19,8 @@
 
     text-align: center;
 
+    transform: translateZ(0);
+
     z-index: $g-z-index__footer;
 
     @media (min-width: $g-breakpoint--mobile-wide) {

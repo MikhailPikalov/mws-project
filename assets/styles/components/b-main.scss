@@ -16,6 +16,8 @@
     .b-main__section {
         position: relative;
 
+        transform: translateZ(0);
+
         &--map {
             height: 160px;
 
