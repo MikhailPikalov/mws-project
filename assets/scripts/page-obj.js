@@ -80,17 +80,21 @@ class PageObj {
         if (enableMapsFromTheStart) {
             enableMap();
         } else {
-            const seeOnGoogleMapsButton = document.querySelector('.b-main__map-enable-button');
-            seeOnGoogleMapsButton.addEventListener('click', (event) => {
-                enableMap()
-            });
-
-            window.addEventListener('resize', function onWindowResizeMapFix(event) {
+            var onWindowResizeMapFix = function (event) {
                 if (!shouldMapBeEnabled()) return;
 
-                enableMap();
-
                 window.removeEventListener('resize', onWindowResizeMapFix);
+
+                enableMap();
+            };
+
+            window.addEventListener('resize', onWindowResizeMapFix);
+
+            const seeOnGoogleMapsButton = document.querySelector('.b-main__map-enable-button');
+            seeOnGoogleMapsButton.addEventListener('click', (event) => {
+                window.removeEventListener('resize', onWindowResizeMapFix);
+
+                enableMap()
             });
         }
 
