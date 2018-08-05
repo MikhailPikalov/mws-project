@@ -1,8 +1,13 @@
 # MWS Project / Stage 1
 
+
+
+
 ## Requirements
 
 **Node.js** version `8.9.0`, but might work with earlier versions.
+
+
 
 
 ## Installation notes
@@ -10,6 +15,8 @@
 `npm install`
 
 Installation of **ImageMagick** or **GraphicsMagick** is not required, since all optimized and resized images are already included (see [Build/Images](#images)).
+
+
 
 
 ## Build
@@ -26,18 +33,18 @@ There are two commands, one is to build everything once, the other is to build a
 
 There are **3** build flags, which can be passed to either one of the build commands:
 
-1. `--dev` / `--prod`
-1.1. Applies minification if it is production.
-1.2. Adds `.min` extention to filenames of `js` and `css` files if it is production.
-1.3. Writes sourcemaps for `css` files if it is development.
-1.4. Calculates separate hash for chunks in webpack if it is production.
+1. `--dev` / `--prod` <br />
+1.1. Applies minification if it is production. <br />
+1.2. Adds `.min` extension to filenames of `js` and `css` files if it is production. <br />
+1.3. Writes sourcemaps for `css` files if it is development. <br />
+1.4. Calculates separate hash for chunks in webpack if it is production. <br />
 *Note: `--prod` can be omitted, by default production version is used.*
 
-2. `--analyze-js-bundle`
-If present — runs [webpack bundle analyzer](https://www.npmjs.com/package/webpack-bundle-analyzer) after build is complete.
+2. `--analyze-js-bundle` <br />
+If present — runs [webpack bundle analyzer](https://www.npmjs.com/package/webpack-bundle-analyzer) after build is complete. <br />
 *Note: Should be run with a `npm run build` command, since there is generally no need to continually analyze bundle after each build.*
 
-3. `--source-maps`
+3. `--source-maps` <br />
 If present, **enables** source maps in webpack build, slows scripts build process a little. Source maps for webpack are **disabled** by default.
 
 Examples:
@@ -53,11 +60,11 @@ npm run build -- --prod --analyze-js-bundle
 `Webpack` is run as one of the steps of the build process. Configuration file for webpack is located in root of the project in a file `webpack.config.js`.
 Scripts (except service worker) are build into three chunks.
 
-1. `vendor` chunk — es5 environment from transpiler and basically nothing else for now.
+1. `vendor` chunk — common scripts for every page.
 2. `index` chunk — code, specific to the index page
-3. `restaurant` chink — same, but for restaurant page
+3. `restaurant` chunk — same, but for restaurant page
 
-Scripts are transpiled with `babel` into `ES5` code.
+Scripts are transpiled with `babel` into `ES5` syntax.
 All resulting `js` files have its **hash** inserted into resulting filenames.
 Webpack build also generates **`webpack-manifest.json`** file with the information about built files. This file is used later, to build **html** files and **service worker**.
 
@@ -131,16 +138,19 @@ Parameter `magick` in `gulp/config.js` chooses which one is used in the build pr
 
 ## Run
 
-HTTP Server needs to be run from the **`/build/`** directory.
+HTTP Server needs to take the **`/build/`** directory as the root.  
 
-For the development was used Node.js server package [`serve`](https://www.npmjs.com/package/serve).
-After its global installation it can be run with a command `serve -p 8000`.
+**In the `package.json` there is a script named `server`, that can be run as a command `npm run server` from the project's root directory, it starts server on the `8000` port.**
 
-Python server `python -m SimpleHTTPServer 8000` also works, but is scoring worse in the lighthouse audit.
+It uses Node.js server package [`serve`](https://www.npmjs.com/package/serve).
+
+Python server `python -m SimpleHTTPServer 8000` also works, but is **scoring MUCH worse** in the lighthouse audit and **might throw errors**. **DO NOT use python server for evaluation**.
+
+
 
 
 ## TLDR
 
 1. `npm install`
 2. `npm run build`
-3. Start server on `localhost:8000` in `/build/` directory
+3. `npm run server` — starts server on `localhost:8000` 
