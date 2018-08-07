@@ -261,6 +261,12 @@ class Page extends PageObj {
         more.setAttribute('aria-labelledby', `${more.id} ${title.id}`);
         info.appendChild(more);
 
+
+        // Favorite checkbox and indicator
+
+        FavoritesHelper.createAndAppendCheckbox(restaurantElement, restaurant);
+
+
         return restaurantElement;
     }
 

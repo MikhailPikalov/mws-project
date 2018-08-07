@@ -174,6 +174,11 @@ class Page extends PageObj {
             image.src = `/assets/images/284/${basename}.${ext}`;
 
             imageContainer.appendChild(image);
+
+
+            // Favorite checkbox and indicator
+
+            FavoritesHelper.createAndAppendCheckbox(imageContainer, this.restaurant);
         });
 
         const cuisine = this.refs.restaurantCuisine;

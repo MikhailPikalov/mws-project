@@ -82,6 +82,14 @@
 
             -webkit-appearance: none;
 
+            transition: background .08s ease;
+
+            cursor: pointer;
+
+            &:hover {
+                background: lighten(#D00000, 5%);
+                }
+
             .b-main__section--map-enabled & {
                 display: none;
                 }
