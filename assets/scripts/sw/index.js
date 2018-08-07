@@ -135,13 +135,6 @@ self.addEventListener('fetch', function (event) {
         }
 
 
-        // Skip fonts
-
-        if (requestUrl.href.indexOf('https://fonts.gstatic.com/') === 0) {
-            event.respondWith(Response.error());
-            return;
-        }
-
         regularForeignCache();
     }
 });
