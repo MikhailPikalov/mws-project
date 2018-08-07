@@ -1,3 +1,5 @@
+import DBHelper from './dbhelper';
+
 class FavoritesHelper {
     constructor(dbHelper) {
         this.dbHelper = dbHelper;

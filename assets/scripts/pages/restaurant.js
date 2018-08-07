@@ -123,7 +123,7 @@ class Page extends PageObj {
             return;
         }
 
-        this.dbHelper.fetchRestaurantById(+id, callback);
+        this.restaurantHelper.fetchRestaurantById(+id, callback);
     }
 
 

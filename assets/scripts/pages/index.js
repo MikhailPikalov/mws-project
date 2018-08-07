@@ -136,7 +136,7 @@ class Page extends PageObj {
         const cuisine = this.refs.cuisinesSelect[cIndex].value;
         const neighborhood = this.refs.neighborhoodsSelect[nIndex].value;
 
-        this.dbHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, (error, restaurants) => {
+        this.restaurantHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, (error, restaurants) => {
             if (error) {
                 // Do not interrupt program flow, just log the error
                 console.log(error);
