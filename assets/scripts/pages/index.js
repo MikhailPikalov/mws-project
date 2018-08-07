@@ -115,6 +115,11 @@ class Page extends PageObj {
 
             this.fetchNeighborhoods();
             this.fetchCuisines();
+
+
+            // Start favorites queue
+
+            this.favoritesHelper.queue.start();
         });
     }
 
@@ -264,7 +269,7 @@ class Page extends PageObj {
 
         // Favorite checkbox and indicator
 
-        FavoritesHelper.createAndAppendCheckbox(restaurantElement, restaurant);
+        this.favoritesHelper.createAndAppendCheckbox(restaurantElement, restaurant);
 
 
         return restaurantElement;

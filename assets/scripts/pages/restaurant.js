@@ -87,7 +87,7 @@ class Page extends PageObj {
 
             if (!restaurant) {
                 // No restaurant found for any reason - interrupt
-                // TODO: Might be better to display error, maybe some distinct scenarion if it is explicitly 404
+                // TODO: Might be better to display error, maybe some distinct scenario if it is explicitly 404
                 return;
             }
 
@@ -104,6 +104,11 @@ class Page extends PageObj {
             this.fillBreadcrumb();
 
             this.fillRestaurantHTML();
+
+
+            // Start favorites queue
+
+            this.favoritesHelper.queue.start();
         });
     }
 
@@ -178,7 +183,7 @@ class Page extends PageObj {
 
             // Favorite checkbox and indicator
 
-            FavoritesHelper.createAndAppendCheckbox(imageContainer, this.restaurant);
+            this.favoritesHelper.createAndAppendCheckbox(imageContainer, this.restaurant);
         });
 
         const cuisine = this.refs.restaurantCuisine;

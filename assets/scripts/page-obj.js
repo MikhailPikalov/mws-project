@@ -85,7 +85,7 @@ class PageObj {
         if (enableMapsFromTheStart) {
             enableMap();
         } else {
-            var onWindowResizeMapFix = function (event) {
+            const onWindowResizeMapFix = function (event) {
                 if (!shouldMapBeEnabled()) return;
 
                 window.removeEventListener('resize', onWindowResizeMapFix);
@@ -201,7 +201,7 @@ class PageObj {
     }
 
     _updateReady(worker) {
-        // TODO: Prompt about new version available
+        // TODO: Prompt about new version available, not really required in this project
 
         const promptYesCallback = () => {
             worker.postMessage({action: 'skip-waiting'});

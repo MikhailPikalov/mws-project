@@ -20,7 +20,7 @@ class DBHelper {
     }
 
     static get indexedDBVersion() {
-        return 1;
+        return 2;
     }
 
     static openIndexedDB() {
@@ -37,6 +37,9 @@ class DBHelper {
             switch (upgradeDb.oldVersion) {
                 case 0:
                     rraStore = upgradeDb.createObjectStore('restaurants', {keyPath: 'id'});
+
+                case 1:
+                    rraStore = upgradeDb.createObjectStore('favorites_actions', {keyPath: 'restaurant_id'});
             }
         });
     }

@@ -39,6 +39,25 @@ class RestaurantHelper {
         return marker;
     }
 
+    /**
+     * Update data from the server, that can be inconsistent
+     */
+    static normalizeRestaurantResponseData(restaurant) {
+        switch (restaurant.is_favorite) {
+            case 'true':
+            case true:
+            case '1':
+                restaurant.is_favorite = true;
+                break;
+
+            case 'false':
+            case false:
+            case '0':
+                restaurant.is_favorite = false;
+                break;
+        }
+    }
+
 
     /**
      * *****************************************
@@ -58,23 +77,27 @@ class RestaurantHelper {
 
             requestPromise
                 .then(restaurants => {
-                    // Cache restaurants to IndexedDB
+                    restaurants.forEach(RestaurantHelper.normalizeRestaurantResponseData);
 
-                    this.indexedDBPromise.then(function (db) {
-                        if (!db) return;
+                    this.updateRestaurantsFavoriteStatusFromFavoritesDBQueue(restaurants, () => {
+                        // Cache restaurants to IndexedDB
 
-                        const tx = db.transaction('restaurants', 'readwrite');
-                        const store = tx.objectStore('restaurants');
+                        this.indexedDBPromise.then(function (db) {
+                            if (!db) return;
 
-                        restaurants.forEach(function (restaurant) {
-                            store.put(restaurant);
+                            const tx = db.transaction('restaurants', 'readwrite');
+                            const store = tx.objectStore('restaurants');
+
+                            restaurants.forEach(function (restaurant) {
+                                store.put(restaurant);
+                            });
                         });
+
+
+                        // Return results
+
+                        callback(null, restaurants);
                     });
-
-
-                    // Return results
-
-                    callback(null, restaurants);
                 })
                 .catch(error => {
                     const errorMessage = `Restaurants request failed: ${error.message}`;
@@ -114,21 +137,25 @@ class RestaurantHelper {
         fetch(DBHelper.DATABASE_URL + `restaurants/${id}`)
             .then(response => response.json())
             .then(restaurant => {
-                // Cache restaurant to IndexedDB
+                RestaurantHelper.normalizeRestaurantResponseData(restaurant);
 
-                this.indexedDBPromise.then(function (db) {
-                    if (!db) return;
+                this.updateRestaurantsFavoriteStatusFromFavoritesDBQueue([restaurant], () => {
+                    // Cache restaurant to IndexedDB
 
-                    const tx = db.transaction('restaurants', 'readwrite');
-                    const store = tx.objectStore('restaurants');
+                    this.indexedDBPromise.then(function (db) {
+                        if (!db) return;
 
-                    store.put(restaurant);
+                        const tx = db.transaction('restaurants', 'readwrite');
+                        const store = tx.objectStore('restaurants');
+
+                        store.put(restaurant);
+                    });
+
+
+                    // Return restaurant
+
+                    callback(null, restaurant);
                 });
-
-
-                // Return restaurant
-
-                callback(null, restaurant);
             })
             .catch(error => {
                 const errorMessage = `Restaurant request failed: ${error.message}`;
@@ -168,6 +195,59 @@ class RestaurantHelper {
             }
 
             callback(error, results);
+        });
+    }
+
+    updateRestaurantsFavoriteStatusFromFavoritesDBQueue(restaurants, callback) {
+        let restaurantsDone = 0;
+
+        restaurants.forEach((restaurant) => {
+            this.actualizeRestaurantFavoriteStatusFromDBQueue(restaurant, (status) => {
+                restaurant.is_favorite = status;
+
+                restaurantsDone++;
+
+                if (restaurantsDone === restaurants.length) callback();
+            });
+        });
+    }
+
+    actualizeRestaurantFavoriteStatusFromDBQueue(restaurant, callback) {
+        // Get favorite status for restaurant from db
+
+        this.indexedDBPromise.then(function (db) {
+            if (!db) {
+                callback(restaurant.is_favorite);
+                return;
+            }
+
+            const favoritesActionsTx = db.transaction('favorites_actions', 'readwrite');
+            const favoritesActionsStore = favoritesActionsTx.objectStore('favorites_actions');
+
+            favoritesActionsStore.get(restaurant.id).then(data => {
+                if (!data) {
+                    callback(restaurant.is_favorite);
+                    return;
+                }
+
+
+                // Check if queue status is outdated and need to be cleared
+
+                const queueFavoriteStatus = data.favoriteStatus;
+
+                if (queueFavoriteStatus === restaurant.is_favorite) {
+                    favoritesActionsStore.delete(restaurant.id).then(() => {
+                        callback(restaurant.is_favorite);
+                    });
+
+                    return;
+                }
+
+
+                // Queue status is more up-to-date
+
+                callback(queueFavoriteStatus);
+            });
         });
     }
 }
