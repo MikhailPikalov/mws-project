@@ -178,6 +178,22 @@ class RestaurantHelper {
     }
 
     /**
+     * Fetch reviews for a restaurant
+     */
+    fetchRestaurantReviews(restaurant, callback) {
+        fetch(DBHelper.DATABASE_URL + `reviews/?restaurant_id=${restaurant.id}`)
+            .then(response => response.json())
+            .then(reviews => {
+                callback(null, reviews || []);
+            })
+            .catch(error => {
+                const errorMessage = `Restaurant's reviews request failed: ${error.message}`;
+
+                callback(errorMessage, null);
+            });
+    }
+
+    /**
      * Fetch restaurants by a cuisine and a neighborhood with proper error handling.
      */
     fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, callback) {

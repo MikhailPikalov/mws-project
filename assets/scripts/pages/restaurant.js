@@ -92,23 +92,36 @@ class Page extends PageObj {
             }
 
 
-            // Save data
+            // Get restaurant's reviews
 
-            this.restaurant = restaurant;
+            this.restaurantHelper.fetchRestaurantReviews(restaurant, (error, reviews) => {
+                if (error) {
+                    // Do not interrupt program, flow, just log the error and show empty reviews
+                    console.error(error);
 
-
-            // Generate page by received data
-
-            this.createMarkerAndAddToMap();
-
-            this.fillBreadcrumb();
-
-            this.fillRestaurantHTML();
+                    reviews = [];
+                }
 
 
-            // Start favorites queue
+                // Save data
 
-            this.favoritesHelper.queue.start();
+                this.restaurant = restaurant;
+                this.restaurant.reviews = reviews;
+
+
+                // Generate page by received data
+
+                this.createMarkerAndAddToMap();
+
+                this.fillBreadcrumb();
+
+                this.fillRestaurantHTML();
+
+
+                // Start favorites queue
+
+                this.favoritesHelper.queue.start();
+            });
         });
     }
 
@@ -231,14 +244,12 @@ class Page extends PageObj {
     }
 
     fillReviewsHTML() {
+        const noReviews = !this.restaurant.reviews || !this.restaurant.reviews.length;
+
+        this.refs.reviewsContainer.classList.toggle('b-restaurant-reviews--empty', noReviews);
+
         if (!this.restaurant.reviews || !this.restaurant.reviews.length) {
-            const noReviewsMessageElemenent = document.createElement('p');
-            noReviewsMessageElemenent.classList.add('b-restaurant-reviews__no-reviews-message');
-            noReviewsMessageElemenent.innerHTML = 'No reviews yet!';
-
-            this.refs.reviewsContainer.appendChild(noReviewsMessageElemenent);
-
-            this.refs.reviewsList.classList.add('b-restaurant-reviews__list--empty');
+            this.refs.reviewsContainer.classList.add('b-restaurant-reviews--empty');
 
             return;
         }
@@ -265,11 +276,15 @@ class Page extends PageObj {
         name.setAttribute('aria-label', `Review by ${review.name}`);
         header.appendChild(name);
 
+        const updatedAt = new Date(review.updatedAt),
+              months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+              formattedUpdatedAt = `${updatedAt.getDate()} ${months[updatedAt.getMonth()]}, ${updatedAt.getFullYear()}`;
+
         const date = document.createElement('p');
         date.classList.add('b-restaurant-reviews__item-date');
-        date.innerHTML = review.date;
+        date.innerHTML = formattedUpdatedAt;
         date.setAttribute('tabindex', 0);
-        date.setAttribute('aria-label', `Review date ${review.date}`);
+        date.setAttribute('aria-label', `Review date ${formattedUpdatedAt}`);
         header.appendChild(date);
 
         reviewElement.appendChild(header);
