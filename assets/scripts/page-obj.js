@@ -1,6 +1,7 @@
 import DBHelper from './dbhelper';
 import FavoritesHelper from './favorites-helper';
 import RestaurantHelper from './restaurant-helper';
+import ReviewsHelper from './reviews-helper';
 
 
 function appendGoogleMaps() {
@@ -59,6 +60,7 @@ class PageObj {
 
         this.restaurantHelper = new RestaurantHelper(this.dbHelper);
         this.favoritesHelper = new FavoritesHelper(this.dbHelper);
+        this.reviewsHelper = new ReviewsHelper(this.dbHelper);
 
         this.refs = {
             map: document.querySelector(mapElementSelector)

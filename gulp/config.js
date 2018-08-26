@@ -31,7 +31,7 @@ module.exports = {
 
     destination: destination,
 
-    cacheForeignResources: true,
+    cacheForeignResources: false,
     serializeCSSBundle: true,
     serializeJSBundles: true,
 

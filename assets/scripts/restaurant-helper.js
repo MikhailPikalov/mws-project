@@ -2,8 +2,6 @@ import DBHelper from './dbhelper';
 
 class RestaurantHelper {
     constructor(dbHelper) {
-        this.dbHelper = dbHelper;
-
         this.indexedDBPromise = dbHelper.indexedDBPromise;
     }
 
@@ -174,22 +172,6 @@ class RestaurantHelper {
                         callback(errorMessage, restaurant);
                     });
                 });
-            });
-    }
-
-    /**
-     * Fetch reviews for a restaurant
-     */
-    fetchRestaurantReviews(restaurant, callback) {
-        fetch(DBHelper.DATABASE_URL + `reviews/?restaurant_id=${restaurant.id}`)
-            .then(response => response.json())
-            .then(reviews => {
-                callback(null, reviews || []);
-            })
-            .catch(error => {
-                const errorMessage = `Restaurant's reviews request failed: ${error.message}`;
-
-                callback(errorMessage, null);
             });
     }
 

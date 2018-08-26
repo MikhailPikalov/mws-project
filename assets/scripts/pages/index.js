@@ -120,6 +120,7 @@ class Page extends PageObj {
             // Start favorites queue
 
             this.favoritesHelper.queue.start();
+            this.reviewsHelper.queue.start();
         });
     }
 

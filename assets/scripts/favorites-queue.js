@@ -4,24 +4,6 @@ import ActionsQueue from './actions-queue';
 
 class FavoritesQueue extends ActionsQueue {
     processNextAction() {
-        const errorCallback = (error) => {
-            console.log(error.message || error);
-
-            setTimeout(() => {
-                if (navigator.onLine) {
-                    this.processNextAction();
-                    return;
-                }
-
-                const onOnline = () => {
-                    window.removeEventListener('online', onOnline);
-                    this.processNextAction();
-                };
-
-                window.addEventListener('online', onOnline);
-            }, 5000);
-        };
-
         this.indexedDBPromise.then((db) => {
             if (!db) {
                 this.errorCallback('Process favorite action error: DB promise failed');

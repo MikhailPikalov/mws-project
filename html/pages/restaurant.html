@@ -45,14 +45,14 @@
 
             <ul class="b-restaurant-reviews__list"></ul>
 
-            <form class="b-restaurant-reviews__form">
+            <form class="b-restaurant-reviews__form" method="POST" action="/">
                 <header class="b-restaurant-reviews__form-header">
                     <div class="b-restaurant-reviews__form-annotation" tabindex="0">
                         New review form
                     </div>
 
                     <div class="b-restaurant-reviews__form-reviewer-container">
-                        <input id="new-review-name-input" type="text" class="b-restaurant-reviews__form-reviewer-input" placeholder="Your name for a review" required />
+                        <input id="new-review-name-input" name="new-review-form__name" type="text" class="b-restaurant-reviews__form-reviewer-input" placeholder="Your name for a review" required />
                         <label for="new-review-name-input" class="b-restaurant-reviews__form-reviewer-input-label">Your name for a review</label>
                     </div>
                 </header>
@@ -62,33 +62,33 @@
                         <label class="b-restaurant-reviews__form-rating-label" tabindex="0">Set a rating for the restaurant:</label>
 
                         <div class="b-restaurant-reviews__form-rating-item">
-                            <input id="new-review-rating-input--1" type="radio" name="b-restaurant-reviews__form-rating-item-input" value="1" class="b-restaurant-reviews__form-rating-item-input" />
+                            <input id="new-review-rating-input--1" type="radio" name="new-review-form__rating" value="1" class="b-restaurant-reviews__form-rating-item-input" />
                             <label for="new-review-rating-input--1" class="b-restaurant-reviews__form-rating-item-label" title="Set restaurant rating at 1">1</label>
                         </div>
 
                         <div class="b-restaurant-reviews__form-rating-item">
-                            <input id="new-review-rating-input--2" type="radio" name="b-restaurant-reviews__form-rating-item-input" value="2" class="b-restaurant-reviews__form-rating-item-input" />
+                            <input id="new-review-rating-input--2" type="radio" name="new-review-form__rating" value="2" class="b-restaurant-reviews__form-rating-item-input" />
                             <label for="new-review-rating-input--2" class="b-restaurant-reviews__form-rating-item-label" title="Set restaurant rating at 2">2</label>
                         </div>
 
                         <div class="b-restaurant-reviews__form-rating-item">
-                            <input id="new-review-rating-input--3" type="radio" name="b-restaurant-reviews__form-rating-item-input" value="3" class="b-restaurant-reviews__form-rating-item-input" />
+                            <input id="new-review-rating-input--3" type="radio" name="new-review-form__rating" value="3" class="b-restaurant-reviews__form-rating-item-input" />
                             <label for="new-review-rating-input--3" class="b-restaurant-reviews__form-rating-item-label" title="Set restaurant rating at 3">3</label>
                         </div>
 
                         <div class="b-restaurant-reviews__form-rating-item">
-                            <input id="new-review-rating-input--4" type="radio" name="b-restaurant-reviews__form-rating-item-input" value="4" class="b-restaurant-reviews__form-rating-item-input" />
+                            <input id="new-review-rating-input--4" type="radio" name="new-review-form__rating" value="4" class="b-restaurant-reviews__form-rating-item-input" />
                             <label for="new-review-rating-input--4" class="b-restaurant-reviews__form-rating-item-label" title="Set restaurant rating at 4">4</label>
                         </div>
 
                         <div class="b-restaurant-reviews__form-rating-item">
-                            <input id="new-review-rating-input--5" type="radio" name="b-restaurant-reviews__form-rating-item-input" value="5" checked class="b-restaurant-reviews__form-rating-item-input" />
+                            <input id="new-review-rating-input--5" type="radio" name="new-review-form__rating" value="5" checked class="b-restaurant-reviews__form-rating-item-input" />
                             <label for="new-review-rating-input--5" class="b-restaurant-reviews__form-rating-item-label" title="Set restaurant rating at 5">5</label>
                         </div>
                     </div>
 
                     <div class="b-restaurant-reviews__form-comment-container">
-                        <textarea id="new-review-comment-input" class="b-restaurant-reviews__form-comment-textarea" placeholder="Text of your comment" required></textarea>
+                        <textarea id="new-review-comment-input" name="new-review-form__comment" class="b-restaurant-reviews__form-comment-textarea" placeholder="Text of your comment" required></textarea>
                         <label for="new-review-comment-input" class="b-restaurant-reviews__form-comment-textarea-label">Text of your comment</label>
                     </div>
 

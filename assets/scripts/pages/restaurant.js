@@ -27,7 +27,12 @@ class Page extends PageObj {
             restaurantHoursTable: document.querySelector('.b-restaurant__hours-table'),
 
             reviewsContainer: document.querySelector('.b-restaurant-reviews'),
-            reviewsList: document.querySelector('.b-restaurant-reviews__list')
+            reviewsList: document.querySelector('.b-restaurant-reviews__list'),
+
+            newReviewForm: document.querySelector('.b-restaurant-reviews__form'),
+            newReviewFormName: document.querySelector('.b-restaurant-reviews__form-reviewer-input'),
+            newReviewFormComment: document.querySelector('.b-restaurant-reviews__form-comment-textarea'),
+            newReviewFormFifthRatingInput: document.querySelector('.b-restaurant-reviews__form-rating-item-input[value="5"]')
         });
 
 
@@ -87,14 +92,14 @@ class Page extends PageObj {
 
             if (!restaurant) {
                 // No restaurant found for any reason - interrupt
-                // TODO: Might be better to display error, maybe some distinct scenario if it is explicitly 404
+                // TODO: Might be better to display error, maybe some distinct scenario if it is explicitly 404, but not really required
                 return;
             }
 
 
             // Get restaurant's reviews
 
-            this.restaurantHelper.fetchRestaurantReviews(restaurant, (error, reviews) => {
+            this.reviewsHelper.fetchRestaurantReviews(restaurant, (error, reviews) => {
                 if (error) {
                     // Do not interrupt program, flow, just log the error and show empty reviews
                     console.error(error);
@@ -121,6 +126,7 @@ class Page extends PageObj {
                 // Start favorites queue
 
                 this.favoritesHelper.queue.start();
+                this.reviewsHelper.queue.start();
             });
         });
     }
@@ -209,6 +215,9 @@ class Page extends PageObj {
 
         // fill reviews
         this.fillReviewsHTML();
+
+        // init new review form
+        this.initNewReviewForm();
     }
 
     fillBreadcrumb() {
@@ -259,9 +268,10 @@ class Page extends PageObj {
         });
     }
 
-    createReviewHTML (review) {
+    createReviewHTML(review) {
         const reviewElement = document.createElement('li');
         reviewElement.classList.add('b-restaurant-reviews__item');
+        reviewElement.dataset.reviewId = review.id;
 
 
         // Header
@@ -310,7 +320,90 @@ class Page extends PageObj {
         reviewElement.appendChild(content);
 
 
+        // Remove button
+
+        const removeButton = document.createElement('button');
+        removeButton.classList.add('b-restaurant-reviews__item-remove-button');
+        removeButton.setAttribute('aria-label', `Remove review by ${review.name}`);
+
+        removeButton.addEventListener('click', (event) => {
+            const reviewId = +reviewElement.dataset.reviewId;
+
+            // Remove review from page
+
+            reviewElement.remove();
+
+
+            // Show empty list message in case it was the last review that was removed
+
+            if (!this.refs.reviewsList.querySelectorAll('.b-restaurant-reviews__item').length) {
+                this.refs.reviewsContainer.classList.add('b-restaurant-reviews--empty');
+            }
+
+
+            this.reviewsHelper.removeReview(reviewId);
+        });
+
+        reviewElement.appendChild(removeButton);
+
+
         return reviewElement;
+    }
+
+    initNewReviewForm() {
+        this.refs.newReviewForm.addEventListener('submit', event => {
+            event.preventDefault();
+
+            const formData = new FormData(this.refs.newReviewForm);
+
+            const name = (formData.get('new-review-form__name') || '').trim(),
+                  rating = +formData.get('new-review-form__rating'),
+                  comment = (formData.get('new-review-form__comment') || '').trim();
+
+            if (rating < 1 || rating > 5) return;
+            if (!name || !comment) return;
+
+
+            // Add review to the queue
+
+            const time = new Date().getTime();
+            const newReviewTemporaryId = this.reviewsHelper.addReview(+Page.getUrlParameterByName('id'), name, rating, comment, time);
+
+
+            // Clear form
+
+            this.refs.newReviewFormName.value = '';
+            this.refs.newReviewFormComment.value = '';
+            this.refs.newReviewFormFifthRatingInput.checked = true;
+
+
+            // Add review to the page
+
+            const newReviewHTML = this.createReviewHTML({
+                id: newReviewTemporaryId,
+
+                name: name,
+                rating: rating,
+                comments: comment,
+
+                updatedAt: time
+            });
+
+            this.refs.reviewsList.appendChild(newReviewHTML);
+
+
+            // Show list of reviews, since there will be at least one - newly added
+
+            if (this.refs.reviewsList.querySelectorAll('.b-restaurant-reviews__item').length) {
+                this.refs.reviewsContainer.classList.remove('b-restaurant-reviews--empty');
+            }
+
+
+            // Set focus after review addition
+
+            const lastReviewReviewerName = this.refs.reviewsList.querySelector('.b-restaurant-reviews__item:last-child').querySelector('.b-restaurant-reviews__item-reviewer');
+            lastReviewReviewerName.focus();
+        });
     }
 }
 

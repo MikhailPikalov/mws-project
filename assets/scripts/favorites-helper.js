@@ -82,13 +82,10 @@ class FavoritesHelper {
                     if (newStatus === currentFavoriteStatus) return;
                 }
 
-                const currentRequestStatus = data ? data.requestStatus : false;
-
                 favoritesActionsStore.put({
                     restaurant_id: restaurant.id,
 
-                    favoriteStatus: newStatus,
-                    requestStatus: currentRequestStatus
+                    favoriteStatus: newStatus
                 });
 
                 this.queue.start();

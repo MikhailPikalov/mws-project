@@ -20,7 +20,7 @@ class DBHelper {
     }
 
     static get indexedDBVersion() {
-        return 2;
+        return 3;
     }
 
     static openIndexedDB() {
@@ -40,6 +40,13 @@ class DBHelper {
 
                 case 1:
                     rraStore = upgradeDb.createObjectStore('favorites_actions', {keyPath: 'restaurant_id'});
+
+                case 2:
+                    rraStore = upgradeDb.createObjectStore('reviews', {keyPath: 'id'});
+                    rraStore.createIndex('by_restaurant', 'restaurant_id');
+
+                    rraStore = upgradeDb.createObjectStore('reviews_actions', {keyPath: 'id'});
+                    rraStore.createIndex('by_status', 'reviewStatus');
             }
         });
     }
